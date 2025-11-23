@@ -36,7 +36,7 @@ export default function ContactPage() {
 
   return (
     <section
-      className="min-h-screen bg-[#f7f8fc] py-16 px-6 flex flex-col items-center "
+      className=" bg-[#f7f8fc] py-16 px-6 mt-7 flex flex-col items-center"
       id="contact"
     >
       <div className="max-w-6xl w-full">

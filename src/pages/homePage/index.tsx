@@ -1,4 +1,7 @@
+import { i } from "framer-motion/client";
 import AboutUs from "./sections/about";
+import AboutBusiness from "./sections/aboutUs";
+
 import ContactPage from "./sections/contact";
 import Hero from "./sections/hero";
 import TeamPage from "./sections/outTeam";
@@ -10,7 +13,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <AboutUs />
+      <AboutBusiness />
       <Services />
       <WhatConcernsUs />
       <TheRightSoftware />

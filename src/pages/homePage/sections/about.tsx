@@ -2,6 +2,10 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import bg from "@/assets/bg.jpg";
+import gms from "@/assets/about.jpg";
+import gms2 from "@/assets/web.jpg";
+import gms3 from "@/assets/softw.jpg";
+
 import AnimatedButton from "@/components/buttons/animatedBtn";
 
 export default function AboutSection() {
@@ -10,14 +14,6 @@ export default function AboutSection() {
       className="relative overflow-hidden bg-gradient-to-r from-[#0b1921]/10 to-[#a2a7aa]/90"
       id="about"
     >
-      {/* <Image
-        src={bgNetwork}
-        alt="image"
-        className="absolute inset-0 bg-gradient-to-r from-[#b1bec5]/99 to-[#07131A]/90 -z-10 w-screen h-screen bg-cover bg-center bg-no-repeat"
-      /> */}
-      {/* Overlay */}
-      {/* <div className="absolute inset-0 bg-gradient-to-r from-[#758187]/10 to-[#07131A]/90 -z-10" /> */}
-
       <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-20 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left: Collage (spans 6 columns on lg) */}
@@ -33,7 +29,7 @@ export default function AboutSection() {
               <div className="flex flex-col gap-6 sm:w-1/2">
                 <div className="relative w-full h-40 sm:h-44 rounded-md overflow-hidden shadow-lg">
                   <Image
-                    src={bg}
+                    src={gms}
                     alt="Corporate analysis meeting"
                     fill
                     className="object-cover"
@@ -41,7 +37,7 @@ export default function AboutSection() {
                 </div>
                 <div className="relative w-full h-40 sm:h-44 rounded-md overflow-hidden shadow-lg">
                   <Image
-                    src={bg}
+                    src={gms2}
                     alt="Team working together"
                     fill
                     className="object-cover"
@@ -67,10 +63,6 @@ export default function AboutSection() {
               transition={{ duration: 0.7 }}
               className="max-w-xl"
             >
-              <p className="text-sm text-cyan-400 text-primary font-medium uppercase tracking-wide">
-                Our story
-              </p>
-
               <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 responsive-title flex flex-col gap-3">
                 <span className="block font-san">About Mitcrux</span>
                 <span className="block text-slate-500 font-semibold text-xl md:text-2xl ">
@@ -85,7 +77,7 @@ export default function AboutSection() {
                 businesses operate smarter, faster, and more efficiently.
               </p>
 
-              <p className="mt-4 text-slate-600 leading-relaxed">
+              <p className="mt-2 text-slate-600 leading-relaxed">
                 From concept to deployment, we transform complex challenges into
                 seamless digital experiences tailored to your goals and built
                 with precision. Our work is driven by innovation, strategy, and

@@ -175,7 +175,7 @@ export default function WhatConcernsUs(): JSX.Element {
         {/* Carousel area */}
         <div className="relative">
           {/* left arrow */}
-          <button
+          {/* <button
             aria-label="Previous"
             onClick={prev}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-20 w-12 h-12 md:w-12 md:h-12 rounded-full bg-cyan-500/80 flex items-center justify-center shadow-lg ring-4 ring-slate-900/40 hover:scale-105 transition-transform"
@@ -195,10 +195,10 @@ export default function WhatConcernsUs(): JSX.Element {
                 strokeLinejoin="round"
               />
             </svg>
-          </button>
+          </button> */}
 
           {/* right arrow */}
-          <button
+          {/* <button
             aria-label="Next"
             onClick={next}
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-20 w-12 h-12 md:w-12 md:h-12 rounded-full bg-cyan-500/80 flex items-center justify-center shadow-lg ring-4 ring-slate-900/40 hover:scale-105 transition-transform"
@@ -218,7 +218,7 @@ export default function WhatConcernsUs(): JSX.Element {
                 strokeLinejoin="round"
               />
             </svg>
-          </button>
+          </button> */}
 
           {/* Cards container - on md+ show 3 columns; on small screens show a horizontal scroller */}
           <div className="mt-8">

@@ -12,14 +12,14 @@ import {
 
 export default function Footer(): JSX.Element {
   return (
-    <footer className="bg-slate-50 border-t border-slate-200 pt-16 pb-10 text-slate-600">
+    <footer className="bg-slate-50 border-t border-slate-200 sm:pt-5 pt-1 pb-10 text-slate-600">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
           {/* Logo + Description */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-4 uppercase">
               <span className="text-2xl font-bold text-slate-800">
-                <span className="">Mit</span>Crux
+                <span className="">MitCrux</span>
               </span>
             </div>
             <p className="text-sm text-slate-500 leading-relaxed mb-6 max-w-sm">
@@ -127,7 +127,7 @@ export default function Footer(): JSX.Element {
                   › Privacy Policy
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a href="#" className="hover:text-sky-500 transition">
                   › Help Center
                 </a>
@@ -141,7 +141,7 @@ export default function Footer(): JSX.Element {
                 <a href="#" className="hover:text-sky-500 transition">
                   › Contact Us
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -155,7 +155,7 @@ export default function Footer(): JSX.Element {
                   <span className="block text-slate-800 font-medium">
                     Call Us :
                   </span>
-                  <span>(+234) 902-66111-64</span>
+                  <span>(+234) 806-5191-675</span>
                 </div>
               </li>
               <li className="flex items-start gap-3">

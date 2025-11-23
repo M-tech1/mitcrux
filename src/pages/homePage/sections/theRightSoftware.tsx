@@ -4,6 +4,8 @@ import Image from "next/image";
 import React, { JSX } from "react";
 import img1 from "@/assets/bgNetwork.jpg";
 import img2 from "@/assets/bg.jpg";
+import webdesign from "@/assets/webDesign.jpg";
+import web from "@/assets/bgpost.jpg";
 
 export default function TheRightSoftware(): JSX.Element {
   return (
@@ -26,10 +28,6 @@ export default function TheRightSoftware(): JSX.Element {
           <p className="text-slate-500 mt-3 text-sm md:text-base">
             The right software isn’t just about code — it’s about solving real
             problems with precision, creativity, and care.
-            {/* At its core, the right software adapts to your needs, grows with
-            your vision, and empowers you to do more with less effort. We
-            believe technology should simplify life, not complicate it — that’s
-            why we create solutions that are smart, reliable, and built to last. */}
           </p>
         </div>
 
@@ -39,7 +37,7 @@ export default function TheRightSoftware(): JSX.Element {
           <div className="relative md:w-1/2 w-full">
             <div className="relative border-[3px] border-cyan-400 rounded-lg overflow-hidden">
               <Image
-                src={img1}
+                src={web}
                 alt="networks"
                 width={600}
                 height={400}
@@ -48,7 +46,7 @@ export default function TheRightSoftware(): JSX.Element {
             </div>
             <div className="absolute -bottom-6 -left-6 bg-white shadow-md rounded-full w-20 h-20 flex items-center justify-center border border-gray-200">
               <span className="text-xs text-slate-700 text-center font-medium px-2">
-                CCH Tagetik
+                CRUX
               </span>
             </div>
           </div>

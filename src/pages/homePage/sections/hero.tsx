@@ -55,19 +55,23 @@ export default function Hero() {
         <div className="relative md:left-20 left-1 border-t border-l border-b border-cyan-400 sm:p-10 p-1 rounded-xl h-130 w-80 ">
           <div className="absolute top-10 sm:left-34 left-3  sm:p-6 p-1 rounded-lg shadow-lg sm:w-120 sm:h-130 ">
             <AnimatedHeading>
-              <h1 className="sm:text-9xl text-7xl"> WE </h1>
-              <span>IMPLEMENT</span>
+              <>
+                <div className="sm:text-9xl text-7xl"> WE </div>
+                <span>IMPLEMENT</span>
 
-              <br />
-              <p className="text-cyan-400 text-[33px]">PROFESSIONAL SOFTWARE</p>
+                <br />
+                <p className="text-cyan-400 text-[33px]">
+                  PROFESSIONAL SOFTWARE
+                </p>
+              </>
             </AnimatedHeading>
 
             <AnimatedText>
-              <p className="text-gray-300 text-cneter">
+              <span className="text-gray-300 text-cneter">
                 Delivering excellence through powerful software development,
                 intelligent AI automation, and inspiring product design — all
                 built to move your ideas forward.
-              </p>
+              </span>
             </AnimatedText>
             <div className="flex flex-col sm:items-end">
               <AnimatedButton
