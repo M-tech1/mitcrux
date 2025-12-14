@@ -1,9 +1,11 @@
 "use client";
-
-import { motion } from "framer-motion";
 import { useState, FormEvent } from "react";
+import emailjs from "@emailjs/browser";
+import toast from "react-hot-toast";
 
 export default function ContactPage() {
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -18,25 +20,49 @@ export default function ContactPage() {
     >
   ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    alert("Message sent successfully!");
-    setFormData({
-      fullName: "",
-      email: "",
-      company: "",
-      service: "",
-      message: "",
-    });
+    setLoading(true);
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          fullName: formData.fullName,
+          email: formData.email,
+          company: formData.company,
+          service: formData.service,
+          message: formData.message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+
+      toast.success("Message sent successfully!");
+
+      setFormData({
+        fullName: "",
+        email: "",
+        company: "",
+        service: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      toast.error(
+        "Failed to send message. Please try again, or try direct email & Phone"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section
-      className=" bg-[#f7f8fc] py-16 px-6 mt-7 flex flex-col items-center"
+      className=" bg-[#f7f8fc] py-10 sm:px-6 p-2 mt-7 flex flex-col items-center"
       id="contact"
     >
       <div className="max-w-6xl w-full">
@@ -62,7 +88,7 @@ export default function ContactPage() {
                   📞 <span>Phone</span>
                 </p>
                 <p>+234 (0) 9026611164</p>
-                <p>+234 (0) 9026611164</p>
+                {/* <p>+234 (0) 9026611164</p> */}
               </div>
 
               <div>
@@ -94,7 +120,7 @@ export default function ContactPage() {
           {/* Contact Form */}
           <form
             onSubmit={handleSubmit}
-            className="bg-white p-8 rounded-2xl shadow-md"
+            className="bg-white sm:p-8 p-4 rounded-2xl shadow-md"
           >
             <h3 className="text-xl font-semibold mb-6">Send Us a Message</h3>
 
@@ -182,9 +208,10 @@ export default function ContactPage() {
 
             <button
               type="submit"
+              disabled={loading}
               className="mt-6 w-full py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-800 hover:opacity-90 transition"
             >
-              📤 Send Message
+              {loading ? "Sending..." : "📤 Send Message"}
             </button>
           </form>
         </div>

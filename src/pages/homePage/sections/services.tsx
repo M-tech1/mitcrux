@@ -1,18 +1,9 @@
-import { i } from "framer-motion/client";
-import Image from "next/image";
-import imgUrl from "@/assets/studioBG.jpg";
-import bgNetwork from "@/assets/bgNetwork.jpg";
-import {
-  Boxes,
-  BrainCircuit,
-  Codesandbox,
-  LayoutDashboard,
-} from "lucide-react";
+import { Boxes, BrainCircuit, LayoutDashboard } from "lucide-react";
 
 export default function Services() {
   return (
     <>
-      <section className="relative min-h-screen text-gray-800 " id="services">
+      <section className="relative  text-gray-800  bg-blue-50" id="services">
         <main className="container mx-auto px-6 md:px-12 py-20">
           {/* Heading */}
           <div className="text-center mb-16">

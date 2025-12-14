@@ -2,9 +2,7 @@
 
 import Image from "next/image";
 import React, { JSX } from "react";
-import img1 from "@/assets/bgNetwork.jpg";
-import img2 from "@/assets/bg.jpg";
-import webdesign from "@/assets/webDesign.jpg";
+import section2Img from "@/assets/bg2.jpg";
 import web from "@/assets/bgpost.jpg";
 
 export default function TheRightSoftware(): JSX.Element {
@@ -35,7 +33,7 @@ export default function TheRightSoftware(): JSX.Element {
         <div className="flex flex-col md:flex-row items-center gap-10 mb-20">
           {/* Image */}
           <div className="relative md:w-1/2 w-full">
-            <div className="relative border-[3px] border-cyan-400 rounded-lg overflow-hidden">
+            <div className="relative border-[2px] border-cyan-400 rounded-lg overflow-hidden">
               <Image
                 src={web}
                 alt="networks"
@@ -92,9 +90,9 @@ export default function TheRightSoftware(): JSX.Element {
         <div className="flex flex-col md:flex-row-reverse items-center gap-10">
           {/* Image */}
           <div className="relative md:w-1/2 w-full">
-            <div className="relative border-[3px] border-cyan-400 rounded-lg overflow-hidden">
+            <div className="relative border-[2px] border-cyan-400 rounded-lg overflow-hidden">
               <Image
-                src={img2}
+                src={section2Img}
                 alt="Sturnis365"
                 width={600}
                 height={400}

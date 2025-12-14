@@ -126,13 +126,13 @@ export default function WhatConcernsUs(): JSX.Element {
     };
   }, []);
 
-  function prev() {
-    setActive((s) => (s - 1 + CARDS.length) % CARDS.length);
-  }
+  // function prev() {
+  //   setActive((s) => (s - 1 + CARDS.length) % CARDS.length);
+  // }
 
-  function next() {
-    setActive((s) => (s + 1) % CARDS.length);
-  }
+  // function next() {
+  //   setActive((s) => (s + 1) % CARDS.length);
+  // }
 
   return (
     <section className="relative overflow-hidden bg-[#071526] text-white">

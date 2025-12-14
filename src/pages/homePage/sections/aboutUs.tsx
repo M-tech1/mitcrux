@@ -2,10 +2,8 @@
 import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
-import gms from "@/assets/about.jpg";
 import gms2 from "@/assets/web.jpg";
-
-import ladyImag from "@/assets/bgNetwork.jpg";
+import bg1 from "@/assets/bg1.jpg";
 
 import AnimatedButton from "@/components/buttons/animatedBtn";
 
@@ -22,31 +20,31 @@ export default function BusinessHero() {
           transition={{ duration: 0.6 }}
           className="bg-white py-6 px-3 md:py-10 md:px-6"
         >
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-gradient-to-r from-[#f3f4f4]/10 to-[#a2a7aa]/60 p-4 rounded-2xl">
+          <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center sm:p-4 p-1 rounded-2xl ">
             {/* Left column: image collage */}
             <motion.div
-              className="relative flex justify-center md:justify-start"
+              className="relative flex justify-center md:justify-star"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              <div className="w-full max-w-md md:max-w-none md:w-[420px] relative">
+              <div className="w-full md:max-w-none md:w-full relative">
                 {/* Large main image */}
                 <div className="rounded-2xl overflow-hidden shadow-lg">
                   <Image
-                    src={ladyImag}
+                    src={bg1}
                     alt="image"
                     className="w-full h-[420px] object-cover block rounded-2xl"
                   />
                 </div>
 
                 {/* Top-left small rounded image */}
-                <div className="absolute -top-6 -left-6 w-25 h-25 rounded-xl overflow-hidden border-4 border-white shadow-md">
-                  <Image src={gms} alt="about image" />
-                </div>
+                {/* <div className="absolute -top-6 -left-6 w-25 h-25 rounded-xl overflow-hidden border-4 border-white shadow-md">
+                  <Image src={gms2} alt="about image" />
+                </div> */}
 
                 {/* Bottom-right small card image */}
-                <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-xl overflow-hidden border-4 border-white shadow-md">
+                <div className="absolute -bottom-20 -right-10 w-40 h-40 rounded-xl overflow-hidden border-4 border-white shadow-md">
                   <Image
                     src={gms2}
                     alt="about image"
@@ -55,8 +53,8 @@ export default function BusinessHero() {
                 </div>
 
                 {/* Experience badge */}
-                <div className="absolute -bottom-10 left-0 transform translate-y-6">
-                  <div className="bg-cyan-500  text-white px-6 py-4 rounded-xl shadow-md flex items-center gap-4 min-w-[170px]">
+                <div className="absolute bottom-10 left-0 transform translate-y-6">
+                  <div className="bg-cyan-500  text-white px-4 py-4 rounded-xl shadow-md flex items-center gap-4 min-w-[170px]">
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +72,7 @@ export default function BusinessHero() {
                       </svg>
                     </div>
                     <motion.div
-                      className="flex flex-col justify-center md:justify-start"
+                      className="flex flex-col justify-center md:justify-start "
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.2, duration: 0.6 }}
@@ -89,12 +87,12 @@ export default function BusinessHero() {
 
             {/* Right column: text content */}
             <motion.div
-              className="pt-6 md:pt-0"
+              className="pt-6 md:pt-0 max-w-2xl"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
-              <h2 className="text-3xl md:text-6xl font-extrabold text-slate-900 leading-tight sm:mt-10 mt-20">
+              <h2 className="text-3xl md:text-6xl font-extrabold text-slate-900 leading-tight sm:mt-10 mt-20 font-sans">
                 Mitcrux
               </h2>
               <span className="block text-slate-500 font-semibold text-l md:text-2xl ">
@@ -109,7 +107,7 @@ export default function BusinessHero() {
 
               {/* Info cards */}
               <div className="mt-8 space-y-4">
-                <div className="bg-white rounded-2xl shadow-sm p-4 flex items-start gap-4 border border-slate-100">
+                <div className="bg-white rounded-2xl shadow-sm p-4 flex items-start gap-4 border border-slate-100 max-w-[35rem]">
                   <div className="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +129,8 @@ export default function BusinessHero() {
                       Company Values
                     </div>
                     <div className="text-sm text-slate-500">
-                      Bringing your ideas to live via technology...
+                      Bringing your ideas to live via Creativity, Innovation and
+                      Technology...
                     </div>
                   </div>
                 </div>
