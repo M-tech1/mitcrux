@@ -71,7 +71,7 @@ export default function AboutSection() {
               </h2>
 
               <p className="mt-2 text-slate-600 leading-relaxed">
-                we’re more than just a software development company — we’re your
+                we’re more than just a software development company we’re your
                 digital transformation partner. We specialize in crafting
                 powerful, scalable, and intelligent solutions that help
                 businesses operate smarter, faster, and more efficiently.

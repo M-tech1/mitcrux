@@ -23,8 +23,8 @@ export default function Navbar() {
     return alert("Unavailable");
   }
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur-sm">
-      <nav className="flex items-center justify-between px-6 md:px-14 py-4">
+    <header className="fixed top-0 left-0 w-full z-50 bg-tansparent backdrop-blur-sm ">
+      <nav className="flex items-center justify-between px-1 md:px-14 py-4">
         {/* Logo */}
         <div className="flex items-center gap-2 ">
           <a href="#/">

@@ -14,14 +14,14 @@ interface ITeamMember {
 
 const teamMembers: ITeamMember[] = [
   {
-    name: "Engr. Onumah Kalu",
-    title: "Chief Executive Officer",
-    years: "12+ years",
+    name: "Engr. Martins AKE",
+    title: "Director",
+    years: "6+ years",
     specializationTitle: "Strategic Leadership & Business Development",
     specialization:
-      "Leading Zebitech's vision with extensive experience in technology leadership and educational systems.",
+      "Leading Mitcrux vision with extensive experience in technology leadership.",
     bio: "",
-    image: "/team/onumah.jpg", // replace with actual image path
+    image: "/team/onumah.jpg",
   },
   {
     name: "Engr. Enger Colman",

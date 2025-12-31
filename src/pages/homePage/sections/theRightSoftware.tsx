@@ -60,7 +60,7 @@ export default function TheRightSoftware(): JSX.Element {
               scalability. At its core, the right software adapts to your needs,
               grows with your vision, and empowers you to do more with less
               effort. We believe technology should simplify life, not complicate
-              it — that’s why we create solutions that are smart, reliable, and
+              it that’s why we create solutions that are smart, reliable, and
               built to last.
             </p>
             <a
@@ -116,12 +116,12 @@ export default function TheRightSoftware(): JSX.Element {
               business, your users, and your vision. At our core, we believe
               every organization deserves solutions designed specifically for
               its unique challenges and goals. That’s why we don’t just write
-              code — we collaborate, listen, and innovate. From concept to
-              launch, we create custom software that aligns with your workflow,
-              scales with your growth, and delivers lasting value. Whether you
-              need a web platform, mobile app, or enterprise system, we build
-              solutions that work exactly the way you need them to — reliable,
-              efficient, and ready for the future.
+              code we collaborate, listen, and innovate. From concept to launch,
+              we create custom software that aligns with your workflow, scales
+              with your growth, and delivers lasting value. Whether you need a
+              web platform, mobile app, or enterprise system, we build solutions
+              that work exactly the way you need them to reliable, efficient,
+              and ready for the future.
             </p>
             <a
               href="#contact"

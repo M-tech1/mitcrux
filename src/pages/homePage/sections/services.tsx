@@ -45,7 +45,7 @@ export default function Services() {
                 We build powerful, scalable, and intelligent software solutions
                 that help businesses operate smarter, faster, and more
                 efficiently. Our team of experienced developers transforms
-                complex business challenges into seamless digital experiences —
+                complex business challenges into seamless digital experiences
                 tailored to your goals and built with precision.
               </p>
 
@@ -87,7 +87,7 @@ export default function Services() {
                 Product Design & Branding
               </h3>
               <p className="text-gray-600 leading-relaxed text-sm text-justify">
-                Your brand is more than just visuals — it’s an experience, a
+                Your brand is more than just visuals it’s an experience, a
                 story, and a promise to your customers. We create meaningful
                 product designs and powerful brand identities that connect
                 emotionally, stand out visually, and inspire trust.

@@ -24,7 +24,7 @@ export default function Footer(): JSX.Element {
             </div>
             <p className="text-sm text-slate-500 leading-relaxed mb-6 max-w-sm">
               Delivering excellence through powerful software development,
-              intelligent AI automation, and inspiring product design — all
+              intelligent AI automation, and inspiring product design - all
               built to move your ideas forward.
             </p>
             <div className="grid grid-cols- md:grid-cols-5 gap-10"> </div>

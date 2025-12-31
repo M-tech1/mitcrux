@@ -51,8 +51,8 @@ export default function Hero() {
 
       {/* Main Content */}
 
-      <div className="relative z-10 flex flex-col justify-center items-start h-full sm:px-16 px-5 lg:px-32 md:px-2 text-white">
-        <div className="relative md:left-20 left-1 border-t border-l border-b border-cyan-400 sm:p-10 p-1 rounded-xl h-130 w-80 ">
+      <div className="relative z-10 flex flex-col justify-center items-start h-full sm:px-16 px-5 lg:px-32 md:px-2 text-white ">
+        <div className="relative md:left-20 left-1 border-t border-l border-b border-cyan-400 sm:p-10 p-1 rounded-xl sm:h-140 w-80 h-120 ">
           <div className="absolute top-10 sm:left-34 left-3  sm:p-6 p-1 rounded-lg shadow-lg sm:w-120 sm:h-130 ">
             <AnimatedHeading>
               <>
@@ -74,13 +74,15 @@ export default function Hero() {
               </span>
             </AnimatedText>
             <div className="flex flex-col sm:items-end">
-              <AnimatedButton
-                className="mt-5"
-                text="Get Started Now"
-                icon="→"
-                delay={1.5}
-                onClick={() => console.log("Button clicked")}
-              />
+              <a href="#contact" className="w-full">
+                <AnimatedButton
+                  className="mt-5 items-center flex justify-center align-middle w-full"
+                  text="Get Started Now"
+                  icon="→"
+                  delay={1.5}
+                  // onClick={}
+                />
+              </a>
             </div>
           </div>
         </div>
