@@ -1,4 +1,12 @@
-import { Boxes, BrainCircuit, LayoutDashboard } from "lucide-react";
+// import { px } from "framer-motion";
+import {
+  Bot,
+  Boxes,
+  BrainCircuit,
+  LayoutDashboard,
+  Network,
+  School,
+} from "lucide-react";
 
 export default function Services() {
   return (
@@ -6,7 +14,7 @@ export default function Services() {
       <section className="relative  text-gray-800  bg-blue-50" id="services">
         <main className="container mx-auto px-6 md:px-12 py-20">
           {/* Heading */}
-          <div className="text-center mb-16">
+          <div className="text-center flex flex-col items-center  mb-16">
             <div className="flex items-center justify-center gap-4 mb-4">
               <span className="inline-block w-14 h-[1px] bg-cyan-400" />
               <p className="text-sm font-semibold text-cyan-400 mb-2">
@@ -18,8 +26,10 @@ export default function Services() {
             <h2 className="text-3xl md:text-4xl font-extrabold mb-3">
               CORE <span className="text-gray-600 font-medium">Services</span>
             </h2>
-            <p className="text-gray-500 text-base">
-              Services we provide to our clients.
+            <p className="text-gray-500 text-base max-w-xl text-center">
+              Our team of experienced developers transforms complex business
+              challenges into seamless digital experiences tailored to your
+              goals and built with precision.
             </p>
           </div>
 
@@ -35,7 +45,7 @@ export default function Services() {
                 <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-cyan-400" />
                 {/* Main circle */}
                 <div className="w-full h-full rounded-full border-4 border-cyan-200 flex items-center justify-center bg-white">
-                  <Boxes className="w-16 h-16  text-cyan-400 " />
+                  <Boxes className="w-16 h-16  text-cyan-400" />
                 </div>
               </div>
               <h3 className="text-lg font-bold mb-4">
@@ -44,9 +54,7 @@ export default function Services() {
               <p className="text-gray-600 leading-relaxed text-sm text-justify">
                 We build powerful, scalable, and intelligent software solutions
                 that help businesses operate smarter, faster, and more
-                efficiently. Our team of experienced developers transforms
-                complex business challenges into seamless digital experiences
-                tailored to your goals and built with precision.
+                efficiently.
               </p>
 
               <ul className="text-gray-600 leading-relaxed text-sm  list-disc pl-6 space-y-2 text-left mt-3 hidden md:block">
@@ -127,9 +135,7 @@ export default function Services() {
                   <BrainCircuit className="w-16 h-16  text-cyan-400 " />
                 </div>
               </div>
-              <h3 className="text-lg font-bold mb-4">
-                AI Automations & Support Engineering
-              </h3>
+              <h3 className="text-lg font-bold mb-4">AI Automation systems</h3>
               <p className="text-gray-600 leading-relaxed text-sm text-justify">
                 Empower your business with intelligent automation and reliable
                 technical support. We integrate Artificial Intelligence and
@@ -154,6 +160,126 @@ export default function Services() {
                   <strong>Support System Engineering</strong> – Ensure seamless
                   system operations through reliable engineering and
                   maintenance.
+                </li>
+              </ul>
+            </div>
+            {/* Service 4 */}
+            <div className="text-center px-4">
+              <div className="relative w-28 h-28 mx-auto mb-6">
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-cyan-400" />{" "}
+                <span className="absolute -top-1 -left-1 w-2 h-2 rounded-full bg-cyan-400" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-cyan-400" />
+                <div className="w-full h-full rounded-full border-4 border-cyan-200 flex items-center justify-center bg-white">
+                  <School className="w-16 h-16  text-cyan-400 " />
+                </div>
+              </div>
+              <h3 className="text-lg font-bold mb-4">
+                IT Training Program & Support Engineering
+              </h3>
+              <p className="text-gray-600 leading-relaxed text-sm text-justify">
+                Empower individuals and organizations with practical IT skills
+                and dependable technical support. Our training programs and
+                engineering services are designed to build competence, improve
+                system reliability, and support long-term digital growth.
+              </p>
+              <ul className="text-gray-600 leading-relaxed list-disc pl-6 space-y-2 text-sm text-left mt-3 hidden md:block">
+                <li>
+                  <strong>Professional IT Training Programs</strong> – Hands-on
+                  training in modern IT, networking, and software technologies.
+                </li>
+                <li>
+                  <strong>echnical Support & Troubleshooting</strong> – Rapid
+                  resolution of system issues to minimize downtime.
+                </li>
+                <li>
+                  <strong>System Deployment & Configuration</strong> – Set up
+                  and optimize IT systems for peak performance.
+                </li>
+                <li>
+                  <strong>Ongoing Maintenance & Support</strong> – Ensure
+                  stability and scalability through continuous engineering
+                  support.
+                </li>
+              </ul>
+            </div>
+
+            {/* Service 5 */}
+            <div className="text-center px-4">
+              <div className="relative w-28 h-28 mx-auto mb-6">
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-cyan-400" />{" "}
+                <span className="absolute -top-1 -left-1 w-2 h-2 rounded-full bg-cyan-400" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-cyan-400" />
+                <div className="w-full h-full rounded-full border-4 border-cyan-200 flex items-center justify-center bg-white">
+                  <Network className="w-16 h-16  text-cyan-400 " />
+                </div>
+              </div>
+              <h3 className="text-lg font-bold mb-4">
+                Networking and Network Infratructures
+              </h3>
+              <p className="text-gray-600 leading-relaxed text-sm text-justify">
+                Build a secure, scalable, and high-performance network
+                foundation for your organization. We design, deploy, and manage
+                robust network infrastructures that ensure seamless
+                connectivity, reliability, and data security across all your
+                systems.
+              </p>
+              <ul className="text-gray-600 leading-relaxed list-disc pl-6 space-y-2 text-sm text-left mt-3 hidden md:block">
+                <li>
+                  <strong>Network Design & Implementation</strong> – Plan and
+                  deploy structured, enterprise-grade network architectures.
+                </li>
+                <li>
+                  <strong>LAN/WAN Configuration & Management</strong> – Enable
+                  efficient local and wide-area connectivity with optimized
+                  performance. support.
+                </li>
+                <li>
+                  <strong>Network Security Solutions</strong> – Protect your
+                  infrastructure with firewalls, access controls, and threat
+                  prevention.
+                </li>
+                <li>
+                  <strong>Monitoring & Maintenance</strong> – Ensure uptime and
+                  performance through proactive monitoring and support.
+                </li>
+              </ul>
+            </div>
+            {/* Service 6 */}
+            <div className="text-center px-4">
+              <div className="relative w-28 h-28 mx-auto mb-6">
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-cyan-400" />{" "}
+                <span className="absolute -top-1 -left-1 w-2 h-2 rounded-full bg-cyan-400" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-cyan-400" />
+                <div className="w-full h-full rounded-full border-4 border-cyan-200 flex items-center justify-center bg-white">
+                  <Bot className="w-16 h-16  text-cyan-400 " />
+                </div>
+              </div>
+              <h3 className="text-lg font-bold mb-4">
+                Smart Home & Automations
+              </h3>
+              <p className="text-gray-600 leading-relaxed text-sm text-justify">
+                Transform living and workspaces with intelligent automation
+                solutions. We integrate smart technologies that enhance comfort,
+                security, energy efficiency, and control delivering a seamless
+                connected experience.
+              </p>
+              <ul className="text-gray-600 leading-relaxed list-disc pl-6 space-y-2 text-sm text-left mt-3 hidden md:block">
+                <li>
+                  <strong>Home Automation Systems</strong> – Control lighting,
+                  climate, and appliances through smart automation.
+                </li>
+                <li>
+                  <strong>Security & Surveillance Integration</strong> – Enhance
+                  safety with smart cameras, access control, and monitoring
+                  systems. support.
+                </li>
+                <li>
+                  <strong>IoT Device Integration</strong> – Connect and manage
+                  smart devices for centralized control and automation.
+                </li>
+                <li>
+                  <strong>Energy Management Solutions</strong> – Optimize power
+                  usage with intelligent energy monitoring and control.
                 </li>
               </ul>
             </div>
