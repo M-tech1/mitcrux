@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Mitcrux",
     title: "Mitcrux ● AI-Powered Software & Digital Solutions",
     description:
-      "Rapid MVPs. Intelligent AI Agents. AdSense Approval. Automation Systems. Built in Abuja, delivered globally.",
+      "Rapid MVPs. Intelligent AI Agents. AdSense Approval. Automation Systems. delivered globally.",
   },
   twitter: {
     card: "summary_large_image",
