@@ -1,41 +1,77 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-heading", // custom CSS variable
-});
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Mitcrux",
-  description: "Creativity, Innovation & Technology...",
+  title: {
+    default: "Mitcrux ● AI-Powered Software & Digital Solutions",
+    template: "%s | Mitcrux",
+  },
+  description:
+    "Africa's fastest AI-powered tech partner. Rapid MVPs, intelligent AI agents, AdSense approval, automation systems, networking, and smart solutions — built to move your business forward.",
+  keywords: [
+    "software development Nigeria",
+    "AI agents Abuja",
+    "MVP development",
+    "web app development Nigeria",
+    "AI automation",
+    "AdSense approval",
+    "smart home Nigeria",
+    "IT consulting Abuja",
+    "Mitcrux",
+  ],
+  authors: [{ name: "Mitcrux", url: "https://mitcrux.com" }],
+  creator: "Mitcrux",
+  openGraph: {
+    type: "website",
+    locale: "en_NG",
+    url: "https://mitcrux.com",
+    siteName: "Mitcrux",
+    title: "Mitcrux ● AI-Powered Software & Digital Solutions",
+    description:
+      "Rapid MVPs. Intelligent AI Agents. AdSense Approval. Automation Systems. Built in Abuja, delivered globally.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mitcrux — AI-Powered Tech Partner",
+    description: "Build fast. Build smart. Build with AI.",
+    creator: "@mitcrux",
+  },
+  robots: { index: true, follow: true },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+    { media: "(prefers-color-scheme: dark)", color: "#080f1e" },
+  ],
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable}  ${poppins.variable}antialiased`}
-      >
-        <Toaster position="top-right" reverseOrder={false} />
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased">
+        <ThemeProvider>
+          <Navbar />
+          <ScrollProgress />
+          <main className="relative">{children}</main>
+          <Footer />
+          <WhatsAppButton />
+        </ThemeProvider>
       </body>
     </html>
   );

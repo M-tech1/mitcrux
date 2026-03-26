@@ -1,13 +1,19 @@
-import Navbar from "@/components/navBar";
-import HomePage from "@/pages/homePage";
-import Footer from "@/pages/homePage/sections/footer";
+import { HeroSection } from "@/components/sections/HeroSection";
+import { ServicesSection } from "@/components/sections/ServicesSection";
+import { AboutSection } from "@/components/sections/AboutSection";
+import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+import { ContactSection } from "@/components/sections/ContactSection";
+import { ProcessSection } from "@/components/sections/ProcessSection";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <>
-      <Navbar />
-      <HomePage />
-      <Footer />
+      <HeroSection />
+      <ServicesSection preview />
+      <AboutSection />
+      <ProcessSection />
+      <TestimonialsSection />
+      <ContactSection />
     </>
   );
 }

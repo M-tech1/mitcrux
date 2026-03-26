@@ -1,33 +1,280 @@
-@import "tailwindcss";
+/* ─── Premium Fonts ─────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Tokens ─────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand-primary:   #1a56a0;
+  --brand-action:    #1a72d7;
+  --brand-accent:    #00b4d8;
+  --brand-deep:      #0d2d5c;
+  --brand-glow:      rgba(26, 114, 215, 0.4);
+
+  /* LIGHT MODE */
+  --bg-page:         #f0f4fa;
+  --bg-card:         #ffffff;
+  --bg-card-2:       #f5f8fd;
+  --bg-card-hover:   #eef3fb;
+  --bg-section-alt:  #e6edf8;
+  --border-subtle:   rgba(26, 86, 160, 0.10);
+  --border-card:     rgba(26, 86, 160, 0.13);
+
+  --text-primary:    #090f1e;
+  --text-secondary:  #3d4f6b;
+  --text-muted:      #7a8faa;
+  --text-inverse:    #ffffff;
+
+  /* --font-display: 'Playfair Display', Georgia, serif; */
+  --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --ease-spring:  cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-expo:    cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── Dark Mode ──────────────────────────────────────────────────────────── */
+.dark {
+  --bg-page:         #080f1e;
+  --bg-card:         #0f1a2e;
+  --bg-card-2:       #111e33;
+  --bg-card-hover:   #162035;
+  --bg-section-alt:  #0b1525;
+  --border-subtle:   rgba(26, 114, 215, 0.18);
+  --border-card:     rgba(255, 255, 255, 0.06);
+
+  --text-primary:    #f0f4fc;
+  --text-secondary:  #94a3b8;
+  --text-muted:      #4a5870;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  transition: background-color 0.35s var(--ease-smooth), color 0.35s var(--ease-smooth);
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(26,114,215,0.2); color: var(--text-primary); }
+
+::-webkit-scrollbar            { width: 5px; }
+::-webkit-scrollbar-track      { background: transparent; }
+::-webkit-scrollbar-thumb      { background: var(--brand-primary); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover{ background: var(--brand-accent); }
+
+:focus-visible { outline: 2px solid var(--brand-accent); outline-offset: 3px; border-radius: 4px; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════════════════════════════ */
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-body    { font-family: var(--font-body); }
+  .font-mono    { font-family: var(--font-mono); }
+  .text-balance { text-wrap: balance; }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #1a56a0 0%, #1a72d7 45%, #00b4d8 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .glass {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.09);
+  }
+  :root:not(.dark) .glass {
+    background: rgba(255,255,255,0.72);
+    border-color: rgba(26,86,160,0.10);
+  }
+  .glass-brand {
+    background: rgba(26,86,160,0.07);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(26,114,215,0.18);
+  }
+  .dark .glass-brand { background: rgba(26,86,160,0.10); border-color: rgba(26,114,215,0.22); }
+
+  .bg-grid-dark {
+    background-image: radial-gradient(circle, rgba(26,114,215,0.14) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .bg-grid-light {
+    background-image: radial-gradient(circle, rgba(26,86,160,0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+
+  /* Stat numbers — Playfair italic makes these sing */
+  .stat-number {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-style: italic;
+    background: linear-gradient(135deg, #1a72d7, #00b4d8);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hover-lift {
+    transition: transform 0.3s var(--ease-expo), box-shadow 0.3s var(--ease-expo);
+  }
+  .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(26,86,160,0.18); }
+
+  .underline-anim { position: relative; display: inline-block; }
+  .underline-anim::after {
+    content: ''; position: absolute; bottom: -2px; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
+    transition: width 0.3s var(--ease-expo);
+  }
+  .underline-anim:hover::after { width: 100%; }
+
+  .card-glow { position: relative; transition: all 0.3s var(--ease-smooth); }
+  .card-glow::before {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+    background: linear-gradient(135deg, rgba(26,114,215,0), rgba(0,180,216,0));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    transition: background 0.4s ease; pointer-events: none;
+  }
+  .card-glow:hover::before { background: linear-gradient(135deg, rgba(26,114,215,0.5), rgba(0,180,216,0.5)); }
+
+  .noise-overlay::after {
+    content: ''; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1;
+  }
+
+  /* Image overlay helpers */
+  .img-overlay-dark::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(8,15,30,0.88) 0%, rgba(8,15,30,0.3) 55%, transparent 100%);
+    pointer-events: none;
+  }
+  .img-overlay-brand::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(13,45,92,0.82) 0%, rgba(26,114,215,0.38) 100%);
+    pointer-events: none;
   }
 }
 
-/* body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-} */
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPONENTS
+═══════════════════════════════════════════════════════════════════════════ */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl font-display font-semibold text-sm text-white;
+    background: linear-gradient(135deg, #1a56a0, #1a72d7);
+    box-shadow: 0 4px 20px rgba(26,86,160,0.28);
+    transition: all 0.25s var(--ease-expo);
+    letter-spacing: 0.01em;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(26,86,160,0.44);
+    background: linear-gradient(135deg, #1a72d7, #438fdf);
+  }
+  .btn-primary:active { transform: translateY(0); }
 
-html,
-body {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  height: 100%;
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-6 py-3 rounded-xl font-display font-semibold text-sm;
+    border: 1px solid var(--border-card);
+    color: var(--text-primary);
+    transition: all 0.25s var(--ease-expo);
+    letter-spacing: 0.01em;
+  }
+  .btn-ghost:hover {
+    border-color: rgba(0,180,216,0.55);
+    background: rgba(26,114,215,0.06);
+    color: #1a72d7;
+  }
+
+  .tag-pill {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-2xs font-mono font-medium tracking-widest uppercase;
+    background: rgba(26,114,215,0.08);
+    border: 1px solid rgba(26,114,215,0.18);
+    color: #1a72d7;
+  }
+  .dark .tag-pill {
+    background: rgba(26,114,215,0.12);
+    border-color: rgba(26,114,215,0.28);
+    color: #72abe7;
+  }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIGHT MODE — surface overrides
+   These ensure hardcoded Tailwind bg-surface-* classes adapt in light mode
+═══════════════════════════════════════════════════════════════════════════ */
+:root:not(.dark) section,
+:root:not(.dark) footer { background-color: var(--bg-page); }
+
+:root:not(.dark) [class*="bg-surface-950"] { background-color: var(--bg-page) !important; }
+:root:not(.dark) [class*="bg-surface-900"] { background-color: var(--bg-card-2) !important; }
+:root:not(.dark) [class*="bg-surface-800"] { background-color: var(--bg-card) !important; }
+:root:not(.dark) [class*="bg-surface-700"] { background-color: #eef3fb !important; }
+
+/* Light-mode text adaptations */
+:root:not(.dark) .text-white  { color: var(--text-primary) !important; }
+:root:not(.dark) .text-slate-200 { color: #1e293b !important; }
+:root:not(.dark) .text-slate-300 { color: #334155 !important; }
+:root:not(.dark) .text-slate-400 { color: #4a6080 !important; }
+:root:not(.dark) .text-slate-500 { color: #64748b !important; }
+:root:not(.dark) .text-slate-600 { color: #475569 !important; }
+:root:not(.dark) .text-slate-700 { color: #334155 !important; }
+
+/* Light-mode borders */
+:root:not(.dark) [class*="border-white/4"],
+:root:not(.dark) [class*="border-white/5"],
+:root:not(.dark) [class*="border-white/6"],
+:root:not(.dark) [class*="border-white/8"],
+:root:not(.dark) [class*="border-white/10"] { border-color: rgba(26,86,160,0.10) !important; }
+
+/* Light-mode navbar */
+:root:not(.dark) nav { background-color: rgba(240,244,250,0.94) !important; }
+
+/* Light-mode dot grid */
+:root:not(.dark) .bg-grid-dark {
+  background-image: radial-gradient(circle, rgba(26,86,160,0.06) 1px, transparent 1px) !important;
+}
+
+/* Light-mode gradient overlays (for sections that use from-brand-900) */
+:root:not(.dark) [class*="from-brand-900"] { --tw-gradient-from: #dbeafe; }
+:root:not(.dark) [class*="from-surface-900"] { --tw-gradient-from: #f0f4fa; }
+
+/* Light-mode inputs */
+:root:not(.dark) input,
+:root:not(.dark) textarea,
+:root:not(.dark) select {
+  background-color: #ffffff !important;
+  color: var(--text-primary) !important;
+  border-color: rgba(26,86,160,0.16) !important;
+}
+:root:not(.dark) input::placeholder,
+:root:not(.dark) textarea::placeholder { color: #94a3b8 !important; }
+
+/* ─── GSAP states ────────────────────────────────────────────────────────── */
+.gsap-reveal       { opacity: 0; transform: translateY(32px); }
+.gsap-reveal-left  { opacity: 0; transform: translateX(-32px); }
+.gsap-reveal-right { opacity: 0; transform: translateX(32px); }
+.gsap-fade         { opacity: 0; }
+
+.page-enter        { opacity: 0; transform: translateY(16px); }
+.page-enter-active { opacity: 1; transform: translateY(0); transition: all 0.5s var(--ease-expo); }
