@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Mail, Phone, MapPin, MessageSquare, Clock, Send, CheckCircle2 } from "lucide-react";
+import {
+  ArrowRight,
+  Mail,
+  Phone,
+  MapPin,
+  MessageSquare,
+  Clock,
+  Send,
+  CheckCircle2,
+} from "lucide-react";
 import { SectionTag, GlowOrb, DotGrid } from "@/components/ui";
 import { SERVICES } from "@/lib/constants";
 import { useReveal } from "@/hooks/useGSAP";
@@ -31,18 +40,29 @@ const inputCls = cn(
   "w-full px-4 py-3 rounded-xl text-sm font-body border",
   "focus:outline-none focus:border-brand-500/50",
   "focus:outline-none focus:border-brand-500/50",
-  "transition-all duration-200"
+  "transition-all duration-200",
 );
 
 /* ── Contact form ─────────────────────────────────────────────────────────── */
 function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [form, setForm] = useState({
-    name: "", email: "", company: "", service: "", budget: "", message: "",
+    name: "",
+    email: "",
+    company: "",
+    service: "",
+    budget: "",
+    message: "",
   });
 
-  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-    setForm((f) => ({ ...f, [k]: e.target.value }));
+  const set =
+    (k: string) =>
+    (
+      e: React.ChangeEvent<
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      >,
+    ) =>
+      setForm((f) => ({ ...f, [k]: e.target.value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,9 +79,18 @@ function ContactForm() {
           <CheckCircle2 className="w-8 h-8 text-cyan-400" />
         </div>
         <div>
-          <h3 className="font-display font-bold text-2xl mb-2" style={{ color: "var(--text-primary)" }}>Message received.</h3>
-          <p className="text-base max-w-sm" style={{ color: "var(--text-secondary)" }}>
-            We'll review your project and get back to you within 24 hours. Check your email for a confirmation.
+          <h3
+            className="font-display font-bold text-2xl mb-2"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Message received.
+          </h3>
+          <p
+            className="text-base max-w-sm"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            We'll review your project and get back to you within 24 hours. Check
+            your email for a confirmation.
           </p>
         </div>
         <button
@@ -114,9 +143,13 @@ function ContactForm() {
             onChange={set("service")}
             required
           >
-            <option value="" disabled>Select a service</option>
+            <option value="" disabled>
+              Select a service
+            </option>
             {SERVICES.map((s) => (
-              <option key={s.id} value={s.id}>{s.title}</option>
+              <option key={s.id} value={s.id}>
+                {s.title}
+              </option>
             ))}
             <option value="other">Other / Not sure yet</option>
           </select>
@@ -129,7 +162,9 @@ function ContactForm() {
           value={form.budget}
           onChange={set("budget")}
         >
-          <option value="" disabled>Select a range</option>
+          <option value="" disabled>
+            Select a range
+          </option>
           <option value="under-500">Under $500</option>
           <option value="500-2000">$500 – $2,000</option>
           <option value="2000-10000">$2,000 – $10,000</option>
@@ -154,7 +189,7 @@ function ContactForm() {
         disabled={status === "sending"}
         className={cn(
           "btn-primary w-full justify-center py-4 text-base group",
-          status === "sending" && "opacity-70 cursor-not-allowed"
+          status === "sending" && "opacity-70 cursor-not-allowed",
         )}
       >
         {status === "sending" ? (
@@ -184,13 +219,20 @@ function ContactInfo() {
       {/* Lead copy */}
       <div>
         <SectionTag className="mb-4">Get in Touch</SectionTag>
-        <h2 className="font-display font-extrabold text-4xl md:text-5xl leading-tight tracking-tight mb-4" style={{ color: "var(--text-primary)" }}>
+        <h2
+          className="font-display font-extrabold text-4xl md:text-5xl leading-tight tracking-tight mb-4"
+          style={{ color: "var(--text-primary)" }}
+        >
           Let's build your
           <br />
           <span className="text-gradient">next big thing.</span>
         </h2>
-        <p className="text-lg leading-relaxed font-light" style={{ color: "var(--text-secondary)" }}>
-          Free 30-minute consultation. No commitment. Honest advice about what you need and how we can help.
+        <p
+          className="text-lg leading-relaxed font-light"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          Free 30-minute consultation. No commitment. Honest advice about what
+          you need and how we can help.
         </p>
       </div>
 
@@ -205,8 +247,15 @@ function ContactInfo() {
           <MessageSquare className="w-5 h-5 text-emerald-400" />
         </div>
         <div className="flex-1">
-          <p className="font-display font-semibold text-sm" style={{ color: "var(--text-primary)" }}>Chat on WhatsApp</p>
-          <p className="text-emerald-400/70 text-xs mt-0.5">Instant response · +234 806 519 1675</p>
+          <p
+            className="font-display font-semibold text-sm"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Chat on WhatsApp
+          </p>
+          <p className="text-emerald-400/70 text-xs mt-0.5">
+            Instant response · +234 806 519 1675
+          </p>
         </div>
         <ArrowRight className="w-4 h-4 text-emerald-500/50 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all" />
       </a>
@@ -214,19 +263,44 @@ function ContactInfo() {
       {/* Contact details */}
       <div className=" gap-4 grid grid-cols-1 sm:grid-cols-2">
         {[
-          { icon: Mail,    label: "Email",   value: "info@mitcrux.com",      href: "mailto:info@mitcrux.com" },
-          { icon: Phone,   label: "Phone",   value: "+234 902 661 1164",     href: "tel:+2349026611164" },
-          { icon: MapPin,  label: "Office",  value: "Abuja, Nigeria",        href: undefined },
-          { icon: Clock,   label: "Hours",   value: "24/7 Work hours",   href: undefined },
+          {
+            icon: Mail,
+            label: "Email",
+            value: "mitcrux@gmail.com",
+            href: "mailto:mitcrux@gmail.com",
+          },
+          {
+            icon: Phone,
+            label: "Phone",
+            value: "+234 806 519 1675",
+            href: "tel:+2348065191675",
+          },
+          {
+            icon: MapPin,
+            label: "Office",
+            value: "Abuja, Nigeria",
+            href: undefined,
+          },
+          {
+            icon: Clock,
+            label: "Hours",
+            value: "24/7 Work hours",
+            href: undefined,
+          },
         ].map(({ icon: Icon, label, value, href }) => (
           <div key={label} className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-lg bg-brand-500/10 border border-brand-500/15 flex items-center justify-center shrink-0 mt-0.5">
               <Icon className="w-3.5 h-3.5 text-brand-400" />
             </div>
             <div>
-              <p className="font-mono text-2xs tracking-widest uppercase text-slate-600">{label}</p>
+              <p className="font-mono text-2xs tracking-widest uppercase text-slate-600">
+                {label}
+              </p>
               {href ? (
-                <a href={href} className="text-slate-300 text-sm hover:text-white transition-colors mt-0.5 block">
+                <a
+                  href={href}
+                  className="text-slate-300 text-sm hover:text-white transition-colors mt-0.5 block"
+                >
                   {value}
                 </a>
               ) : (
@@ -239,7 +313,9 @@ function ContactInfo() {
 
       {/* Process note */}
       <div className="p-5 rounded-2xl border">
-        <p className="font-mono text-2xs tracking-widest uppercase text-slate-600 mb-3">What happens next</p>
+        <p className="font-mono text-2xs tracking-widest uppercase text-slate-600 mb-3">
+          What happens next
+        </p>
         <ol className="space-y-2">
           {[
             "We review your message within 24 hours",
@@ -247,8 +323,13 @@ function ContactInfo() {
             "We send a tailored proposal & timeline",
             "Project kickoff within 48 hours of agreement",
           ].map((step, i) => (
-            <li key={i} className="flex items-start gap-3 text-sm text-slate-400">
-              <span className="font-mono text-brand-500 text-2xs mt-0.5 shrink-0">0{i + 1}</span>
+            <li
+              key={i}
+              className="flex items-start gap-3 text-sm text-slate-400"
+            >
+              <span className="font-mono text-brand-500 text-2xs mt-0.5 shrink-0">
+                0{i + 1}
+              </span>
               {step}
             </li>
           ))}
@@ -259,22 +340,31 @@ function ContactInfo() {
 }
 
 /* ── Contact Section ──────────────────────────────────────────────────────── */
-export function ContactSection({ standalone = false }: { standalone?: boolean }) {
+export function ContactSection({
+  standalone = false,
+}: {
+  standalone?: boolean;
+}) {
   const formRef = useReveal<HTMLDivElement>({ x: 40, y: 0 });
   const infoRef = useReveal<HTMLDivElement>({ x: -40, y: 0 });
 
   return (
     <section
       id="contact"
-      className={cn(
-        "relative overflow-hidden",
-        standalone ? "py-32" : "py-28"
-      )}
+      className={cn("relative overflow-hidden", standalone ? "py-32" : "py-28")}
     >
       {/* Background */}
       <DotGrid className="opacity-25" />
-      <GlowOrb color="brand" size="xl" className="left-[-10%] top-0 opacity-[0.08]" />
-      <GlowOrb color="cyan"  size="lg" className="right-[-5%] bottom-0 opacity-[0.06]" />
+      <GlowOrb
+        color="brand"
+        size="xl"
+        className="left-[-10%] top-0 opacity-[0.08]"
+      />
+      <GlowOrb
+        color="cyan"
+        size="lg"
+        className="right-[-5%] bottom-0 opacity-[0.06]"
+      />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-500/20 to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
