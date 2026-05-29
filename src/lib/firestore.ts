@@ -1,3 +1,5 @@
+"use client";
+
 import {
   collection,
   addDoc,
@@ -10,6 +12,7 @@ import {
   onSnapshot,
   getDoc,
   Timestamp,
+  limit,
 } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -29,21 +32,34 @@ export interface ContactSubmission {
 
 export type NewSubmission = Omit<ContactSubmission, "id" | "submittedAt" | "status">;
 
-export async function submitContactForm(data: NewSubmission): Promise<void> {
-  await addDoc(collection(db, "contacts"), {
+export async function submitContactForm(data: NewSubmission): Promise<string> {
+  const ref = await addDoc(collection(db, "contacts"), {
     ...data,
     status: "new" as SubmissionStatus,
     submittedAt: serverTimestamp(),
   });
+  return ref.id;
 }
 
 export function subscribeToSubmissions(
-  callback: (submissions: ContactSubmission[]) => void
+  callback: (submissions: ContactSubmission[]) => void,
+  onError?: (error: Error) => void
 ): () => void {
-  const q = query(collection(db, "contacts"), orderBy("submittedAt", "desc"));
-  return onSnapshot(q, (snap) => {
-    callback(snap.docs.map((d) => ({ id: d.id, ...d.data() } as ContactSubmission)));
-  });
+  const q = query(
+    collection(db, "contacts"),
+    orderBy("submittedAt", "desc"),
+    limit(100)
+  );
+  return onSnapshot(
+    q,
+    (snap) => {
+      callback(snap.docs.map((d) => ({ id: d.id, ...d.data() } as ContactSubmission)));
+    },
+    (error) => {
+      console.error("Firestore subscription error:", error);
+      onError?.(error);
+    }
+  );
 }
 
 export async function getSubmission(id: string): Promise<ContactSubmission | null> {
