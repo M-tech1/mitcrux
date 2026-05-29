@@ -72,9 +72,14 @@ function DetailContent({ id }: { id: string }) {
   const handleStatusChange = async (status: SubmissionStatus) => {
     if (!submission || updating || submission.status === status) return;
     setUpdating(true);
-    await updateSubmissionStatus(id, status);
-    setSubmission((prev) => (prev ? { ...prev, status } : prev));
-    setUpdating(false);
+    try {
+      await updateSubmissionStatus(id, status);
+      setSubmission((prev) => (prev ? { ...prev, status } : prev));
+    } catch (err) {
+      console.error("Failed to update status:", err);
+    } finally {
+      setUpdating(false);
+    }
   };
 
   const handleDelete = async () => {

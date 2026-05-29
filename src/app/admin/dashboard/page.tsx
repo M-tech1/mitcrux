@@ -110,7 +110,7 @@ function DashboardContent() {
           <div className="flex items-center gap-4">
             <span className="text-slate-600 text-xs hidden sm:block">{user?.email}</span>
             <button
-              onClick={() => signOut(auth)}
+              onClick={async () => { try { await signOut(auth); } catch {} }}
               className="flex items-center gap-1.5 text-slate-500 hover:text-white text-sm transition-colors"
             >
               <LogOut className="w-4 h-4" />

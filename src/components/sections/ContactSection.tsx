@@ -154,6 +154,7 @@ function ContactForm() {
             placeholder="Your name"
             value={form.name}
             onChange={set("name")}
+            maxLength={200}
             required
           />
         </Field>
@@ -164,6 +165,7 @@ function ContactForm() {
             placeholder="you@company.com"
             value={form.email}
             onChange={set("email")}
+            maxLength={254}
             required
           />
         </Field>
@@ -176,6 +178,7 @@ function ContactForm() {
             placeholder="Your company"
             value={form.company}
             onChange={set("company")}
+            maxLength={200}
           />
         </Field>
         <Field label="Service of Interest" required>
@@ -222,6 +225,7 @@ function ContactForm() {
           placeholder="Tell us about your project, goals, and timeline..."
           value={form.message}
           onChange={set("message")}
+          maxLength={2000}
           required
         />
       </Field>
