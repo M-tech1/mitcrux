@@ -10,7 +10,9 @@ import {
   Clock,
   Send,
   CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
+import { submitContactForm } from "@/lib/firestore";
 import { SectionTag, GlowOrb, DotGrid } from "@/components/ui";
 import { SERVICES } from "@/lib/constants";
 import { useReveal } from "@/hooks/useGSAP";
@@ -45,7 +47,7 @@ const inputCls = cn(
 
 /* ── Contact form ─────────────────────────────────────────────────────────── */
 function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -67,9 +69,12 @@ function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("sending");
-    // Simulate submission
-    await new Promise((r) => setTimeout(r, 1800));
-    setStatus("sent");
+    try {
+      await submitContactForm(form);
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
   };
 
   if (status === "sent") {
@@ -98,6 +103,33 @@ function ContactForm() {
           className="btn-ghost px-6 py-2.5 text-sm"
         >
           Send another message
+        </button>
+      </div>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <div className="flex flex-col items-center justify-center gap-6 py-20 text-center">
+        <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center">
+          <AlertCircle className="w-8 h-8 text-red-400" />
+        </div>
+        <div>
+          <h3
+            className="font-display font-bold text-2xl mb-2"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Something went wrong.
+          </h3>
+          <p className="text-base max-w-sm" style={{ color: "var(--text-secondary)" }}>
+            We couldn't send your message. Please try again or reach us directly on WhatsApp.
+          </p>
+        </div>
+        <button
+          onClick={() => setStatus("idle")}
+          className="btn-ghost px-6 py-2.5 text-sm"
+        >
+          Try again
         </button>
       </div>
     );
