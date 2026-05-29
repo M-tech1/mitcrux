@@ -57,10 +57,16 @@ function DetailContent({ id }: { id: string }) {
   const [deleting, setDeleting]     = useState(false);
 
   useEffect(() => {
-    getSubmission(id).then((data) => {
-      setSubmission(data);
-      setLoading(false);
-    });
+    getSubmission(id)
+      .then((data) => {
+        setSubmission(data);
+      })
+      .catch((err) => {
+        console.error("Failed to load submission:", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [id]);
 
   const handleStatusChange = async (status: SubmissionStatus) => {
@@ -74,8 +80,14 @@ function DetailContent({ id }: { id: string }) {
   const handleDelete = async () => {
     if (!confirmDelete) { setConfirmDelete(true); return; }
     setDeleting(true);
-    await deleteSubmission(id);
-    router.replace("/admin/dashboard");
+    try {
+      await deleteSubmission(id);
+      router.replace("/admin/dashboard");
+    } catch (err) {
+      console.error("Failed to delete submission:", err);
+      setDeleting(false);
+      setConfirmDelete(false);
+    }
   };
 
   if (loading) {
