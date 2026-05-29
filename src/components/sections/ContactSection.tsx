@@ -72,7 +72,8 @@ function ContactForm() {
     try {
       await submitContactForm(form);
       setStatus("sent");
-    } catch {
+    } catch (err) {
+      console.error("Contact form submission failed:", err);
       setStatus("error");
     }
   };
@@ -122,7 +123,16 @@ function ContactForm() {
             Something went wrong.
           </h3>
           <p className="text-base max-w-sm" style={{ color: "var(--text-secondary)" }}>
-            We couldn't send your message. Please try again or reach us directly on WhatsApp.
+            We couldn't send your message. Please try again or{" "}
+            <a
+              href="https://wa.me/2348065191675"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald-400 hover:text-emerald-300 underline transition-colors"
+            >
+              reach us on WhatsApp
+            </a>
+            .
           </p>
         </div>
         <button
