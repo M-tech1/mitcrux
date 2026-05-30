@@ -11,14 +11,16 @@ import { cn } from "@/lib/utils";
 
 /* ── Service images mapped by slug ─────────────────────────────────────── */
 const SERVICE_IMAGES: Record<string, string> = {
-  "mvp-development":  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=75&auto=format&fit=crop",
-  "ai-agents":        "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=75&auto=format&fit=crop",
-  "ai-automation":    "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&q=75&auto=format&fit=crop",
-  "adsense-approval": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=75&auto=format&fit=crop",
-  "product-design":   "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=600&q=75&auto=format&fit=crop",
-  "networking":       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=75&auto=format&fit=crop",
-  "smart-home":       "https://images.unsplash.com/photo-1558002038-1055907df827?w=600&q=75&auto=format&fit=crop",
-  "it-training":      "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=75&auto=format&fit=crop",
+  "mvp-development": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&q=75&auto=format&fit=crop",
+  "ai-agents":       "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=75&auto=format&fit=crop",
+  "ai-automation":   "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&q=75&auto=format&fit=crop",
+  "social-media":    "https://images.unsplash.com/photo-1611262588024-d12430b98920?w=600&q=75&auto=format&fit=crop",
+  "product-design":  "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=600&q=75&auto=format&fit=crop",
+  "networking":      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=75&auto=format&fit=crop",
+  "smart-home":      "https://images.unsplash.com/photo-1558002038-1055907df827?w=600&q=75&auto=format&fit=crop",
+  "it-training":     "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=75&auto=format&fit=crop",
+  "it-support":      "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=600&q=75&auto=format&fit=crop",
+  "ai-consulting":   "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=75&auto=format&fit=crop",
 };
 
 /* ── Service card ───────────────────────────────────────────────────────── */
@@ -57,15 +59,15 @@ function ServiceCard({
         style={{ boxShadow: `inset 0 0 0 1px ${service.accent}40` }}
       />
 
-      {/* Image strip — only on large cards */}
-      {isLarge && img && (
-        <div className="relative w-full h-44 overflow-hidden shrink-0">
+      {/* Image strip — shown on all cards */}
+      {img && (
+        <div className={cn("relative w-full overflow-hidden shrink-0", isLarge ? "h-44" : "h-36")}>
           <Image
             src={img}
             alt={service.title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-700"
-            sizes="(max-width: 768px) 100vw, 60vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
           <div
             className="absolute inset-0"
@@ -80,12 +82,20 @@ function ServiceCard({
               {service.category}
             </span>
           </div>
+          {/* Arrow indicator for small cards */}
+          {!isLarge && (
+            <div className="absolute top-4 right-4">
+              <ArrowUpRight
+                className="w-4 h-4 text-white/60 group-hover:text-white/90 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+              />
+            </div>
+          )}
         </div>
       )}
 
       <div className="relative z-10 p-6 flex flex-col gap-4 flex-1">
-        {/* Top row — small cards only show category here */}
-        {!isLarge && (
+        {/* Top row — only rendered as fallback when no image is available */}
+        {!isLarge && !img && (
           <div className="flex items-center justify-between">
             <span
               className="text-2xs font-mono tracking-widest uppercase px-2.5 py-1 rounded-md border"

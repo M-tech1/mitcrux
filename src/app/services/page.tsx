@@ -4,7 +4,7 @@ import { ContactSection }  from "@/components/sections/ContactSection";
 
 export const metadata: Metadata = {
   title: "Services — AI-Powered Digital Solutions",
-  description: "Explore Mitcrux's full suite: Rapid MVPs, AI Agents, Automation, AdSense Approval, Design, Networking, Smart Home, and IT Training.",
+  description: "Explore Mitcrux's full suite: Rapid MVPs, AI Agents, Automation, Social Media Management, Design, Networking, Smart Home, and IT Training.",
 };
 
 export default function ServicesPage() {

@@ -136,7 +136,7 @@ Empty state shown when no submissions match the active filter.
 
 ### 7.3 Submission Detail (`/admin/dashboard/[id]`)
 
-**Header:** Back link → dashboard · Archive button · Delete button
+**Header:** Back link → dashboard · Delete button (archiving is handled via status pills below)
 
 **Content:**
 - Submitted timestamp (full date + time)

@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     "MVP development",
     "web app development Nigeria",
     "AI automation",
-    "AdSense approval",
+    "social media management Nigeria",
     "smart home Nigeria",
     "IT consulting Abuja",
     "Mitcrux",
