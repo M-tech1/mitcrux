@@ -2,7 +2,7 @@ import {
   Code2, Zap, Bot, Brain,
   ShieldCheck, Network, Home, GraduationCap,
   Palette, TrendingUp,
-  DollarSign, Settings,
+  Share2, Settings, Wrench, Lightbulb,
 } from "lucide-react";
 
 /* ── Navigation ──────────────────────────────────────────────────────────── */
@@ -102,28 +102,28 @@ export const SERVICES = [
     ],
   },
   {
-    id: "adsense-approval",
-    slug: "adsense-approval",
-    category: "Monetise",
-    icon: DollarSign,
-    title: "AdSense & Monetisation",
-    tagline: "Get approved. Start earning.",
+    id: "social-media",
+    slug: "social-media",
+    category: "Market",
+    icon: Share2,
+    title: "Social Media Management",
+    tagline: "Grow your audience. Amplify your brand.",
     description:
-      "The only end-to-end AdSense approval service in Africa. We audit your site, fix content and technical issues with AI, and get you approved — or we resubmit until you are.",
-    accent: "#22d3ee",
+      "Full-service social media management powered by AI content creation, scheduling, and performance analytics. We manage your entire digital presence — content, community, and growth — across all major platforms.",
+    accent: "#f97316",
     features: [
-      "Full Site AdSense Audit",
-      "AI Content Rewriting",
-      "Policy Compliance Fixes",
-      "Technical SEO Repair",
-      "Multi-Network Onboarding",
-      "Ad Revenue Optimisation",
+      "Content Creation & Design",
+      "Multi-Platform Scheduling",
+      "Community Management",
+      "Analytics & Reporting",
+      "Brand Voice Strategy",
+      "Paid Social Campaigns",
     ],
     packages: [
-      { name: "Audit Report",          price: "$30",    duration: "48 hrs",     desc: "Full AdSense readiness report + fix list" },
-      { name: "Approval Sprint",        price: "$180",   duration: "5–7 days",   desc: "Audit + content + fixes + 1 submission" },
-      { name: "Approval Guarantee",     price: "$300",   duration: "Until done", desc: "3 resubmissions + support until approved" },
-      { name: "Revenue Management",     price: "$90/mo", duration: "Ongoing",    desc: "Ad placement + RPM optimisation" },
+      { name: "Content Audit",   price: "$150",    duration: "1 week",  desc: "Full audit + strategy report + action plan" },
+      { name: "Starter",         price: "$120/mo", duration: "Ongoing", desc: "2 platforms + 12 posts/month + basic analytics" },
+      { name: "Growth",          price: "$280/mo", duration: "Ongoing", desc: "4 platforms + 30 posts/month + engagement mgmt" },
+      { name: "Brand Pro",       price: "$550/mo", duration: "Ongoing", desc: "All platforms + 60 posts + paid ads + influencer" },
     ],
   },
   {
@@ -226,10 +226,60 @@ export const SERVICES = [
       { name: "Corporate Workshop",      price: "$900",  duration: "1–2 month", desc: "On-site technology literacy for your team" },
     ],
   },
+  {
+    id: "it-support",
+    slug: "it-support",
+    category: "Support",
+    icon: Wrench,
+    title: "IT Support & Maintenance",
+    tagline: "Keep your systems running. Always.",
+    description:
+      "Reliable, responsive IT support and system maintenance for businesses of all sizes. From helpdesk to infrastructure upkeep — we keep your technology running at peak performance, minimising downtime and maximising productivity.",
+    accent: "#14b8a6",
+    features: [
+      "Helpdesk & User Support",
+      "System Health Monitoring",
+      "Hardware Maintenance",
+      "Software Updates & Patching",
+      "IT Asset Management",
+      "Remote & On-site Support",
+    ],
+    packages: [
+      { name: "One-Time Fix",     price: "$75",     duration: "Per incident", desc: "Single-session remote or on-site resolution" },
+      { name: "Starter Support",  price: "$80/mo",  duration: "Ongoing",     desc: "5 support tickets/month + remote assistance" },
+      { name: "Business Care",    price: "$200/mo", duration: "Ongoing",     desc: "Unlimited tickets + monitoring + monthly audit" },
+      { name: "Enterprise SLA",   price: "$500/mo", duration: "Ongoing",     desc: "Priority 24/7 support + on-site + dedicated manager" },
+    ],
+  },
+  {
+    id: "ai-consulting",
+    slug: "ai-consulting",
+    category: "Consult",
+    icon: Lightbulb,
+    title: "AI Consulting & Corporate Training",
+    tagline: "Transform your business with AI. Intelligently.",
+    description:
+      "Strategic AI consulting and hands-on corporate training that helps your organisation identify high-value AI opportunities, build internal capabilities, and deploy AI solutions that deliver measurable ROI.",
+    accent: "#6366f1",
+    features: [
+      "AI Readiness Assessment",
+      "Use Case Discovery",
+      "AI Strategy Roadmap",
+      "Executive AI Workshops",
+      "Team Upskilling Programs",
+      "Implementation Support",
+    ],
+    packages: [
+      { name: "AI Audit",            price: "$300",   duration: "3 days",  desc: "Full AI readiness assessment + opportunity report" },
+      { name: "Strategy Workshop",   price: "$900",   duration: "2 days",  desc: "Executive workshop + AI roadmap + quick wins" },
+      { name: "Team Training",       price: "$1,200", duration: "1 month", desc: "AI literacy + tools training for up to 20 staff" },
+      { name: "Full Transformation", price: "Custom", duration: "Ongoing", desc: "End-to-end AI adoption program + change management" },
+    ],
+  },
 ] as const;
 
 /* ── Service categories for filter ──────────────────────────────────────── */
-export const SERVICE_CATEGORIES = ["All", "Build", "Automate", "Monetise", "Design", "Infrastructure", "IoT", "Learn"] as const;
+export const SERVICE_CATEGORIES = ["All", "Build", "Automate", "Market", "Design", "Infrastructure", "IoT", "Learn", "Support", "Consult"] as const;
 
 /* ── Testimonials ────────────────────────────────────────────────────────── */
 export const TESTIMONIALS = [
