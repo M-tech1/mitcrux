@@ -3,6 +3,7 @@ import {
   ShieldCheck, Network, Home, GraduationCap,
   Palette, TrendingUp,
   Share2, Settings, Wrench, Lightbulb,
+  Headset, Sparkles, Server, Users,
 } from "lucide-react";
 
 /* ── Navigation ──────────────────────────────────────────────────────────── */
@@ -23,12 +24,45 @@ export const STATS = [
   { value: "4wk",  label: "Average MVP Delivery" },
 ] as const;
 
+/* ── Divisions ───────────────────────────────────────────────────────────── */
+export const DIVISIONS = [
+  {
+    id: "digital-solutions",
+    name: "MitCrux Digital Solutions",
+    tagline: "Custom software, mobile apps, websites, APIs, and AI integrations.",
+    accent: "#1a72d7",
+    icon: Code2,
+  },
+  {
+    id: "managed-it",
+    name: "MitCrux Managed IT",
+    tagline: "Helpdesk, device management, networking, and always-on support.",
+    accent: "#10b981",
+    icon: Server,
+  },
+  {
+    id: "business-support",
+    name: "MitCrux Business Support",
+    tagline: "Virtual assistants and admin support that scale with you.",
+    accent: "#ec4899",
+    icon: Users,
+  },
+  {
+    id: "growth-specialized",
+    name: "Growth & Specialized",
+    tagline: "Design, social media, training, consulting, and smart infrastructure.",
+    accent: "#a855f7",
+    icon: Sparkles,
+  },
+] as const;
+
 /* ── Services ────────────────────────────────────────────────────────────── */
 export const SERVICES = [
   {
     id: "mvp-development",
     slug: "mvp-development",
     category: "Build",
+    division: "digital-solutions",
     icon: Code2,
     title: "Rapid MVP & Software Development",
     tagline: "From idea to live product in 4 weeks",
@@ -55,6 +89,7 @@ export const SERVICES = [
     id: "ai-agents",
     slug: "ai-agents",
     category: "Automate",
+    division: "digital-solutions",
     icon: Bot,
     title: "AI Agent Frameworks",
     tagline: "Autonomous agents that work while you sleep",
@@ -80,6 +115,7 @@ export const SERVICES = [
     id: "ai-automation",
     slug: "ai-automation",
     category: "Automate",
+    division: "digital-solutions",
     icon: Zap,
     title: "AI Automation & Integration",
     tagline: "Connect your tools. Let AI decide.",
@@ -105,6 +141,7 @@ export const SERVICES = [
     id: "social-media",
     slug: "social-media",
     category: "Market",
+    division: "growth-specialized",
     icon: Share2,
     title: "Social Media Management",
     tagline: "Grow your audience. Amplify your brand.",
@@ -130,6 +167,7 @@ export const SERVICES = [
     id: "product-design",
     slug: "product-design",
     category: "Design",
+    division: "growth-specialized",
     icon: Palette,
     title: "Product Design & Branding",
     tagline: "Brands that connect. Products that convert.",
@@ -155,6 +193,7 @@ export const SERVICES = [
     id: "networking",
     slug: "networking",
     category: "Infrastructure",
+    division: "managed-it",
     icon: Network,
     title: "Networking & Infrastructure",
     tagline: "Enterprise-grade connectivity, secured.",
@@ -180,6 +219,7 @@ export const SERVICES = [
     id: "smart-home",
     slug: "smart-home",
     category: "IoT",
+    division: "growth-specialized",
     icon: Home,
     title: "Smart Home & IoT Systems",
     tagline: "Intelligent spaces. Effortless living.",
@@ -205,6 +245,7 @@ export const SERVICES = [
     id: "it-training",
     slug: "it-training",
     category: "Learn",
+    division: "growth-specialized",
     icon: GraduationCap,
     title: "Mitcrux Academy & IT Training",
     tagline: "Skills that build the future.",
@@ -230,6 +271,7 @@ export const SERVICES = [
     id: "it-support",
     slug: "it-support",
     category: "Support",
+    division: "managed-it",
     icon: Wrench,
     title: "IT Support & Maintenance",
     tagline: "Keep your systems running. Always.",
@@ -255,6 +297,7 @@ export const SERVICES = [
     id: "ai-consulting",
     slug: "ai-consulting",
     category: "Consult",
+    division: "growth-specialized",
     icon: Lightbulb,
     title: "AI Consulting & Corporate Training",
     tagline: "Transform your business with AI. Intelligently.",
@@ -276,10 +319,34 @@ export const SERVICES = [
       { name: "Full Transformation", price: "Custom", duration: "Ongoing", desc: "End-to-end AI adoption program + change management" },
     ],
   },
+  {
+    id: "business-support",
+    slug: "business-support",
+    category: "Assist",
+    division: "business-support",
+    icon: Headset,
+    title: "Business Support & Virtual Assistance",
+    tagline: "Your extended team, without the overhead.",
+    description:
+      "Technical and executive virtual assistants who handle customer support, inbox and calendar management, CRM administration, documentation, and research — so your core team can focus on growth.",
+    accent: "#ec4899",
+    features: [
+      "Technical Virtual Assistants",
+      "Executive Assistants",
+      "Customer Support Reps",
+      "Email & Calendar Management",
+      "CRM Administration",
+      "Documentation & SOPs",
+      "Research & Data Support",
+    ],
+    packages: [
+      { name: "Starter VA",              price: "$180/mo", duration: "Ongoing", desc: "20 hrs/month, core admin tasks" },
+      { name: "Growth VA",               price: "$380/mo", duration: "Ongoing", desc: "40 hrs/month, dedicated assistant + CRM/calendar/email" },
+      { name: "Business Support Pod",    price: "$750/mo", duration: "Ongoing", desc: "2 assistants (technical + executive) + customer support coverage" },
+      { name: "Enterprise Support Team", price: "Custom",  duration: "Ongoing", desc: "Multi-person pod + dedicated account manager" },
+    ],
+  },
 ] as const;
-
-/* ── Service categories for filter ──────────────────────────────────────── */
-export const SERVICE_CATEGORIES = ["All", "Build", "Automate", "Market", "Design", "Infrastructure", "IoT", "Learn", "Support", "Consult"] as const;
 
 /* ── Testimonials ────────────────────────────────────────────────────────── */
 export const TESTIMONIALS = [
