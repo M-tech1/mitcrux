@@ -86,7 +86,7 @@ export default function AcademyPage() {
                 className="group flex flex-col gap-4 p-6 rounded-2xl border hover:border-pink-500/25 hover:-translate-y-1 transition-all duration-300" style={{ background: "var(--bg-card)", borderColor: "var(--border-card)" }}
               >
                 <div className="flex items-center justify-between">
-                  <span className="stat-number text-2xl font-display font-extrabold">{pkg.price}</span>
+                  <span className="stat-number text-lg font-display font-extrabold">Custom Quote</span>
                   <span className="text-xs font-mono text-slate-600 border border-white/8 px-2 py-1 rounded-md">{pkg.duration}</span>
                 </div>
                 <div>

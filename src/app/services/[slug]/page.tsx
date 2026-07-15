@@ -127,7 +127,7 @@ export default function ServiceDetailPage({ params }: Props) {
               >
                 {/* Price */}
                 <div>
-                  <p className="stat-number text-3xl font-display font-extrabold">{pkg.price}</p>
+                  <p className="stat-number text-xl font-display font-extrabold">Custom Quote</p>
                   <div className="flex items-center gap-1.5 mt-1">
                     <Clock className="w-3 h-3 text-slate-600" />
                     <span className="text-slate-500 text-xs font-mono">{pkg.duration}</span>

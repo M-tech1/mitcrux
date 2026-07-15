@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { SERVICES, SERVICE_CATEGORIES } from "@/lib/constants";
+import { SERVICES, DIVISIONS } from "@/lib/constants";
 import { SectionTag, ServiceIcon, GlowOrb } from "@/components/ui";
 import { useReveal, useStagger } from "@/hooks/useGSAP";
 import { cn } from "@/lib/utils";
@@ -21,6 +20,7 @@ const SERVICE_IMAGES: Record<string, string> = {
   "it-training":     "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=75&auto=format&fit=crop",
   "it-support":      "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=600&q=75&auto=format&fit=crop",
   "ai-consulting":   "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=75&auto=format&fit=crop",
+  "business-support": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=75&auto=format&fit=crop",
 };
 
 /* ── Service card ───────────────────────────────────────────────────────── */
@@ -172,36 +172,41 @@ function ServiceCard({
   );
 }
 
-/* ── Filter tab ─────────────────────────────────────────────────────────── */
-function FilterTab({
-  label, active, onClick,
-}: {
-  label: string; active: boolean; onClick: () => void;
-}) {
+/* ── Division pill (anchor nav) ────────────────────────────────────────── */
+function DivisionPill({ division }: { division: (typeof DIVISIONS)[number] }) {
+  const Icon = division.icon;
   return (
-    <button
-      onClick={onClick}
-      className={cn(
-        "px-4 py-1.5 rounded-lg text-sm font-mono font-medium tracking-wide transition-all duration-250 border",
-        active
-          ? "bg-brand-600/80 text-white border-brand-500/50"
-          : "border-transparent hover:border-[var(--border-card)]"
-      )}
-      style={active ? {} : { color: "var(--text-muted)" }}
+    <a
+      href={`#${division.id}`}
+      className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-sm font-mono font-medium tracking-wide border transition-all duration-250"
+      style={{ color: division.accent, borderColor: `${division.accent}40`, background: `${division.accent}0d` }}
     >
-      {label}
-    </button>
+      <Icon className="w-3.5 h-3.5" />
+      {division.name}
+    </a>
   );
 }
 
 /* ── Services Section ───────────────────────────────────────────────────── */
 export function ServicesSection({ preview = false }: { preview?: boolean }) {
-  const [activeFilter, setActiveFilter] = useState<string>("All");
   const headerRef = useReveal<HTMLDivElement>({ y: 30 });
   const gridRef   = useStagger<HTMLDivElement>(":scope > a", { stagger: 0.1 });
 
-  const filtered  = activeFilter === "All" ? SERVICES : SERVICES.filter((s) => s.category === activeFilter);
-  const displayed = preview ? filtered.slice(0, 6) : filtered;
+  // Preview mode: curated flat grid, one representative service per division
+  // (first match per division, in DIVISIONS order), filled to 6 with the
+  // next unused services in SERVICES order.
+  const curatedPreview = (() => {
+    const picked: (typeof SERVICES)[number][] = [];
+    for (const division of DIVISIONS) {
+      const match = SERVICES.find((s) => s.division === division.id && !picked.includes(s));
+      if (match) picked.push(match);
+    }
+    for (const s of SERVICES) {
+      if (picked.length >= 6) break;
+      if (!picked.includes(s)) picked.push(s);
+    }
+    return picked.slice(0, 6);
+  })();
 
   return (
     <section id="services" className="relative py-28 overflow-hidden" style={{ background: "var(--bg-page)" }}>
@@ -224,40 +229,62 @@ export function ServicesSection({ preview = false }: { preview?: boolean }) {
           </div>
           <div className="md:max-w-xs">
             <p className="text-base leading-relaxed font-light" style={{ color: "var(--text-secondary)" }}>
-              Eight integrated service lines. One AI-powered partner. No handoffs, no gaps.
+              4 service divisions. One AI-powered partner. No handoffs, no gaps.
             </p>
           </div>
         </div>
 
-        {/* Filter bar */}
-        {!preview && (
-          <div className="flex flex-wrap gap-2 mb-10 ">
-            {SERVICE_CATEGORIES.map((cat) => (
-              <FilterTab
-                key={cat}
-                label={cat}
-                active={activeFilter === cat}
-                onClick={() => setActiveFilter(cat)}
-              />
-            ))}
-          </div>
-        )}
+        {preview ? (
+          <>
+            {/* Preview grid */}
+            <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {curatedPreview.map((service, i) => (
+                <ServiceCard key={service.id} service={service} index={i} />
+              ))}
+            </div>
 
-        {/* Grid */}
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {displayed.map((service, i) => (
-            <ServiceCard key={service.id} service={service} index={i} />
-          ))}
-        </div>
+            {/* View all CTA */}
+            <div className="flex justify-center mt-12">
+              <Link href="/services" className="btn-ghost px-8 py-3.5 group">
+                Explore All Services
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Division pill nav */}
+            <div className="flex flex-wrap gap-2 mb-16 sticky top-20 z-20 py-2">
+              {DIVISIONS.map((division) => (
+                <DivisionPill key={division.id} division={division} />
+              ))}
+            </div>
 
-        {/* View all CTA */}
-        {preview && (
-          <div className="flex justify-center mt-12">
-            <Link href="/services" className="btn-ghost px-8 py-3.5 group">
-              Explore All Services
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
+            {/* Division sections */}
+            {DIVISIONS.map((division) => {
+              const divisionServices = SERVICES.filter((s) => s.division === division.id);
+              return (
+                <div key={division.id} id={division.id} className="mb-20 scroll-mt-24">
+                  <div className="mb-8">
+                    <h3
+                      className="font-display font-bold text-2xl md:text-3xl tracking-tight mb-2"
+                      style={{ color: "var(--text-primary)" }}
+                    >
+                      {division.name}
+                    </h3>
+                    <p className="text-sm font-light" style={{ color: "var(--text-secondary)" }}>
+                      {division.tagline}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {divisionServices.map((service, i) => (
+                      <ServiceCard key={service.id} service={service} index={i} />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </>
         )}
       </div>
     </section>
