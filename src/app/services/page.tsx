@@ -4,7 +4,7 @@ import { ContactSection }  from "@/components/sections/ContactSection";
 
 export const metadata: Metadata = {
   title: "Services — AI-Powered Digital Solutions",
-  description: "Explore Mitcrux's full suite: Rapid MVPs, AI Agents, Automation, Social Media Management, Design, Networking, Smart Home, and IT Training.",
+  description: "Explore Mitcrux's full suite across 4 divisions: Digital Solutions, Managed IT, Business Support, and Growth & Specialized services.",
 };
 
 export default function ServicesPage() {
@@ -21,7 +21,7 @@ export default function ServicesPage() {
             <span className="text-gradient">business needs.</span>
           </h1>
           <p className="text-xl font-light leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            Eight integrated service lines. All AI-accelerated. All delivered by one team.
+            4 service divisions. 11 specialties. All delivered by one team.
           </p>
         </div>
       </div>

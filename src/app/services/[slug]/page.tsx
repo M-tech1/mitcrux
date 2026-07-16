@@ -7,6 +7,9 @@ import { ServiceIcon, SectionTag, GlowOrb, DotGrid, Badge } from "@/components/u
 import { ContactSection } from "@/components/sections/ContactSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 
+// Pricing/packages module is hidden for now — flip to true to bring it back.
+const SHOW_PRICING = false;
+
 type Props = { params: { slug: string } };
 
 export async function generateStaticParams() {
@@ -108,59 +111,61 @@ export default function ServiceDetailPage({ params }: Props) {
       </section>
 
       {/* ── Packages ── */}
-      <section className="py-24" style={{ background: "var(--bg-card-2)" }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <SectionTag className="mb-4">Pricing</SectionTag>
-            <h2 className="font-display font-extrabold text-4xl md:text-5xl tracking-tight" style={{ color: "var(--text-primary)" }}>
-              Clear packages.
-              <br />
-              <span className="text-gradient">No surprises.</span>
-            </h2>
-          </div>
+      {SHOW_PRICING && (
+        <section className="py-24" style={{ background: "var(--bg-card-2)" }}>
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-14">
+              <SectionTag className="mb-4">Pricing</SectionTag>
+              <h2 className="font-display font-extrabold text-4xl md:text-5xl tracking-tight" style={{ color: "var(--text-primary)" }}>
+                Clear packages.
+                <br />
+                <span className="text-gradient">No surprises.</span>
+              </h2>
+            </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {service.packages.map((pkg, i) => (
-              <div
-                key={i}
-                className="relative flex flex-col gap-5 p-6 rounded-2xl border transition-all duration-300 hover:border-brand-500/30 hover:-translate-y-1 hover:shadow-brand-md group surface-card"
-              >
-                {/* Price */}
-                <div>
-                  <p className="stat-number text-3xl font-display font-extrabold">{pkg.price}</p>
-                  <div className="flex items-center gap-1.5 mt-1">
-                    <Clock className="w-3 h-3 text-slate-600" />
-                    <span className="text-slate-500 text-xs font-mono">{pkg.duration}</span>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {service.packages.map((pkg, i) => (
+                <div
+                  key={i}
+                  className="relative flex flex-col gap-5 p-6 rounded-2xl border transition-all duration-300 hover:border-brand-500/30 hover:-translate-y-1 hover:shadow-brand-md group surface-card"
+                >
+                  {/* Price */}
+                  <div>
+                    <p className="stat-number text-xl font-display font-extrabold">Custom Quote</p>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <Clock className="w-3 h-3 text-slate-600" />
+                      <span className="text-slate-500 text-xs font-mono">{pkg.duration}</span>
+                    </div>
+                  </div>
+
+                  {/* Name */}
+                  <div>
+                    <h3 className="font-display font-bold text-base mb-1 group-hover:text-cyan-500 dark:group-hover:text-cyan-300 transition-colors" style={{ color: "var(--text-primary)" }}>
+                      {pkg.name}
+                    </h3>
+                    <p className="text-slate-500 text-sm leading-relaxed">{pkg.desc}</p>
+                  </div>
+
+                  <div className="mt-auto pt-4 border-t border-white/5">
+                    <Link
+                      href={`/contact?service=${service.id}&package=${pkg.name}`}
+                      className="flex items-center gap-1.5 text-sm font-medium transition-colors group-hover:text-white"
+                      style={{ color: `${service.accent}bb` }}
+                    >
+                      Get Started
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </Link>
                   </div>
                 </div>
+              ))}
+            </div>
 
-                {/* Name */}
-                <div>
-                  <h3 className="font-display font-bold text-base mb-1 group-hover:text-cyan-500 dark:group-hover:text-cyan-300 transition-colors" style={{ color: "var(--text-primary)" }}>
-                    {pkg.name}
-                  </h3>
-                  <p className="text-slate-500 text-sm leading-relaxed">{pkg.desc}</p>
-                </div>
-
-                <div className="mt-auto pt-4 border-t border-white/5">
-                  <Link
-                    href={`/contact?service=${service.id}&package=${pkg.name}`}
-                    className="flex items-center gap-1.5 text-sm font-medium transition-colors group-hover:text-white"
-                    style={{ color: `${service.accent}bb` }}
-                  >
-                    Get Started
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
-                </div>
-              </div>
-            ))}
+            <p className="text-center text-slate-600 text-sm mt-8 font-mono">
+              Need something custom? <Link href="/contact" className="text-brand-400 hover:text-cyan-400 transition-colors">Let's talk →</Link>
+            </p>
           </div>
-
-          <p className="text-center text-slate-600 text-sm mt-8 font-mono">
-            Need something custom? <Link href="/contact" className="text-brand-400 hover:text-cyan-400 transition-colors">Let's talk →</Link>
-          </p>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── Contact ── */}
       <ContactSection />
