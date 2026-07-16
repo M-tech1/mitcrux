@@ -163,7 +163,7 @@ function ServiceCard({
           style={{ borderColor: "var(--border-card)", color: `${service.accent}cc` }}
         >
           <span className="transition-colors duration-300 group-hover:text-cyan-500 dark:group-hover:text-white">
-            View packages
+            Learn more
           </span>
           <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
         </div>
