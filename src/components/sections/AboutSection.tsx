@@ -75,7 +75,7 @@ export function AboutSection() {
             </h2>
             <div className="space-y-4 text-lg leading-relaxed font-light mb-8" style={{ color: "var(--text-secondary)" }}>
               <p>
-                We’re more than just a software development company — we’re your digital transformation partner. 
+                We're more than just a software development company. We're your digital transformation partner.
                 We specialize in crafting powerful, scalable, and intelligent solutions that help businesses operate smarter, faster, and more efficiently.
               </p>
               <p>
@@ -87,8 +87,8 @@ export function AboutSection() {
 
             <ul className="space-y-3 mb-10">
               {[
-                "AI-accelerated delivery — 60% faster than traditional agencies",
-                "Fixed-scope packages — no surprise invoices, ever",
+                "AI-accelerated delivery: 60% faster than traditional agencies",
+                "Fixed-scope packages: no surprise invoices, ever",
                 "5+ years of engineering and product expertise",
                 "Global quality. Africa-first pricing.",
               ].map((v, i) => (

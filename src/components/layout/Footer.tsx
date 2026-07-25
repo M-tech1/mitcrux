@@ -27,7 +27,7 @@ export function Footer() {
               <span className="text-gradient">remarkable?</span>
             </h2>
             <p className="text-lg" style={{ color: "var(--text-secondary)" }}>
-              Let's talk about your project — free 30-minute consultation.
+              Let's talk about your project, free 30-minute consultation.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">

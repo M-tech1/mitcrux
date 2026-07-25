@@ -9,7 +9,7 @@ const STEPS = [
     number: "01",
     title: "Discovery Call",
     description:
-      "A focused 30-minute conversation to understand your goals, constraints, and timeline. We come prepared with questions — you leave with clarity.",
+      "A focused 30-minute conversation to understand your goals, constraints, and timeline. We come prepared with questions; you leave with clarity.",
     detail: "Free · No commitment · 24hr booking",
     accent: "#1a72d7",
   },
@@ -17,7 +17,7 @@ const STEPS = [
     number: "02",
     title: "Proposal & Scope",
     description:
-      "Within 48 hours you receive a tailored proposal: fixed scope, defined deliverables, clear timeline, and transparent pricing — nothing vague.",
+      "Within 48 hours you receive a tailored proposal: fixed scope, defined deliverables, clear timeline, and transparent pricing, nothing vague.",
     detail: "48hr turnaround · Fixed-price packages",
     accent: "#0ea5d4",
   },
@@ -33,7 +33,7 @@ const STEPS = [
     number: "04",
     title: "Launch & Hand Over",
     description:
-      "Deployment, documentation, team training. You own everything — code, credentials, pipelines. We don't lock you in.",
+      "Deployment, documentation, team training. You own everything: code, credentials, pipelines. We don't lock you in.",
     detail: "Full IP transfer · Ongoing support available",
     accent: "#22d3ee",
   },
@@ -109,7 +109,7 @@ export function ProcessSection() {
           <div>
             <SectionTag className="mb-4">How It Works</SectionTag>
             <h2 className="font-display font-extrabold text-4xl md:text-5xl xl:text-6xl leading-tight tracking-tight" style={{ color: "var(--text-primary)" }}>
-              From idea to live product —<br />
+              From idea to live product<br />
               <span className="text-gradient">no guesswork.</span>
             </h2>
           </div>
@@ -191,7 +191,7 @@ export function ProcessSection() {
               Ready to start your project?
             </p>
             <p className="text-sm font-light" style={{ color: "var(--text-secondary)" }}>
-              Book a free discovery call — slots fill up fast.
+              Book a free discovery call, slots fill up fast.
             </p>
           </div>
           <a

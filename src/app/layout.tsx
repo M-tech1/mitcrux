@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s | Mitcrux",
   },
   description:
-    "Africa's fastest AI-powered tech partner. Rapid MVPs, intelligent AI agents, AdSense approval, automation systems, networking, and smart solutions — built to move your business forward.",
+    "Africa's fastest AI-powered tech partner. Rapid MVPs, intelligent AI agents, AdSense approval, automation systems, networking, and smart solutions, built to move your business forward.",
   keywords: [
     "software development Nigeria",
     "AI agents Abuja",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mitcrux — AI-Powered Tech Partner",
+    title: "Mitcrux: AI-Powered Tech Partner",
     description: "Build fast. Build smart. Build with AI.",
     creator: "@mitcrux",
   },

@@ -6,16 +6,16 @@ import { GlowOrb, DotGrid, SectionTag } from "@/components/ui";
 import { ContactSection } from "@/components/sections/ContactSection";
 
 export const metadata: Metadata = {
-  title: "Work — Our Portfolio",
+  title: "Work: Our Portfolio",
   description: "Explore Mitcrux's portfolio of AI-powered products, MVPs, and digital solutions.",
 };
 
 const CASE_STUDIES = [
   {
     id: 1,
-    title: "PayFlowNG — Fintech MVP",
+    title: "PayFlowNG: Fintech MVP",
     category: "MVP Development",
-    description: "Built and launched a complete payment platform MVP in 4 weeks. Auth, wallet, P2P transfers, and admin dashboard — all from scratch.",
+    description: "Built and launched a complete payment platform MVP in 4 weeks. Auth, wallet, P2P transfers, and admin dashboard, all from scratch.",
     tags: ["Next.js", "Supabase", "Stripe", "React Native"],
     accent: "#1a72d7",
     result: "Launched on schedule. Raised seed round within 60 days.",
@@ -39,7 +39,7 @@ const CASE_STUDIES = [
     id: 3,
     title: "TechBridge Invoice Automation",
     category: "AI Automation",
-    description: "End-to-end invoice processing pipeline — extract, validate, match, and route 500+ invoices per week with zero human touch.",
+    description: "End-to-end invoice processing pipeline: extract, validate, match, and route 500+ invoices per week with zero human touch.",
     tags: ["Python", "GPT-4o", "Zapier", "Google Sheets"],
     accent: "#10b981",
     result: "40 hours/week saved. Full ROI in month one.",
@@ -76,7 +76,7 @@ export default function WorkPage() {
             <em className="not-italic text-gradient">Results delivered.</em>
           </h1>
           <p className="text-xl font-light leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            A selection of projects across our service lines — each with a real, measurable outcome.
+            A selection of projects across our service lines, each with a real, measurable outcome.
           </p>
         </div>
       </section>

@@ -6,7 +6,7 @@ import { SectionTag, GlowOrb, DotGrid } from "@/components/ui";
 import { ContactSection } from "@/components/sections/ContactSection";
 
 export const metadata: Metadata = {
-  title: "Mitcrux Academy — AI & Tech Training",
+  title: "Mitcrux Academy: AI & Tech Training",
   description: "Practical AI, automation, and software development training for individuals and corporate teams. Online and in-person in Abuja.",
 };
 
@@ -29,7 +29,7 @@ export default function AcademyPage() {
                 <span className="text-gradient">the future.</span>
               </h1>
               <p className="text-slate-400 text-xl font-light leading-relaxed mb-8">
-                Practical, hands-on AI and tech training — for individuals who want to level up and 
+                Practical, hands-on AI and tech training, for individuals who want to level up and
                 companies who want their teams to work smarter.
               </p>
               <div className="flex gap-3">

@@ -67,7 +67,7 @@ export const SERVICES = [
     title: "Rapid MVP & Software Development",
     tagline: "From idea to live product in 4 weeks",
     description:
-      "AI-accelerated development that ships production-ready web apps, mobile products, and custom software faster than any traditional agency — without cutting corners.",
+      "AI-accelerated development that ships production-ready web apps, mobile products, and custom software faster than any traditional agency, without cutting corners.",
     accent: "#1a72d7",
     features: [
       "Custom Web Applications",
@@ -94,7 +94,7 @@ export const SERVICES = [
     title: "AI Agent Frameworks",
     tagline: "Autonomous agents that work while you sleep",
     description:
-      "Design, build, and deploy custom AI agents that handle entire business workflows — customer support, sales outreach, document processing, and more — with zero human intervention.",
+      "Design, build, and deploy custom AI agents that handle entire business workflows: customer support, sales outreach, document processing, and more, with zero human intervention.",
     accent: "#00b4d8",
     features: [
       "Customer Support Agents",
@@ -120,7 +120,7 @@ export const SERVICES = [
     title: "AI Automation & Integration",
     tagline: "Connect your tools. Let AI decide.",
     description:
-      "Smart automation pipelines that connect your existing business tools — Slack, HubSpot, WhatsApp, Shopify, Google Sheets — and layer in AI to make decisions, not just move data.",
+      "Smart automation pipelines that connect your existing business tools (Slack, HubSpot, WhatsApp, Shopify, Google Sheets) and layer in AI to make decisions, not just move data.",
     accent: "#438fdf",
     features: [
       "WhatsApp Business AI Bots",
@@ -146,7 +146,7 @@ export const SERVICES = [
     title: "Social Media Management",
     tagline: "Grow your audience. Amplify your brand.",
     description:
-      "Full-service social media management powered by AI content creation, scheduling, and performance analytics. We manage your entire digital presence — content, community, and growth — across all major platforms.",
+      "Full-service social media management powered by AI content creation, scheduling, and performance analytics. We manage your entire digital presence (content, community, and growth) across all major platforms.",
     accent: "#f97316",
     features: [
       "Content Creation & Design",
@@ -172,7 +172,7 @@ export const SERVICES = [
     title: "Product Design & Branding",
     tagline: "Brands that connect. Products that convert.",
     description:
-      "From brand identity to full UI/UX systems — we design experiences that resonate with your audience and drive measurable business outcomes, accelerated by AI design tools.",
+      "From brand identity to full UI/UX systems, we design experiences that resonate with your audience and drive measurable business outcomes, accelerated by AI design tools.",
     accent: "#a855f7",
     features: [
       "Brand Identity Systems",
@@ -250,7 +250,7 @@ export const SERVICES = [
     title: "Mitcrux Academy & IT Training",
     tagline: "Skills that build the future.",
     description:
-      "Practical, hands-on training programs in AI, automation, web development, and networking — delivered online and organized physical locations, for individuals and corporate teams.",
+      "Practical, hands-on training programs in AI, automation, web development, and networking, delivered online and organized physical locations, for individuals and corporate teams.",
     accent: "#ec4899",
     features: [
       "AI Agents for Business",
@@ -276,7 +276,7 @@ export const SERVICES = [
     title: "IT Support & Maintenance",
     tagline: "Keep your systems running. Always.",
     description:
-      "Reliable, responsive IT support and system maintenance for businesses of all sizes. From helpdesk to infrastructure upkeep — we keep your technology running at peak performance, minimising downtime and maximising productivity.",
+      "Reliable, responsive IT support and system maintenance for businesses of all sizes. From helpdesk to infrastructure upkeep, we keep your technology running at peak performance, minimising downtime and maximising productivity.",
     accent: "#14b8a6",
     features: [
       "Helpdesk & User Support",
@@ -328,7 +328,7 @@ export const SERVICES = [
     title: "Business Support & Virtual Assistance",
     tagline: "Your extended team, without the overhead.",
     description:
-      "Technical and executive virtual assistants who handle customer support, inbox and calendar management, CRM administration, documentation, and research — so your core team can focus on growth.",
+      "Technical and executive virtual assistants who handle customer support, inbox and calendar management, CRM administration, documentation, and research, so your core team can focus on growth.",
     accent: "#ec4899",
     features: [
       "Technical Virtual Assistants",
@@ -373,7 +373,7 @@ export const TESTIMONIALS = [
     name: "Emeka Nwachukwu",
     role: "Digital Publisher",
     content:
-      "I had been rejected by AdSense 3 times before Mitcrux. Their approval sprint fixed everything I didn't know was wrong — approved in 8 days.",
+      "I had been rejected by AdSense 3 times before Mitcrux. Their approval sprint fixed everything I didn't know was wrong, approved in 8 days.",
     rating: 5,
     service: "AdSense Approval",
   },
@@ -400,12 +400,12 @@ export const TECH_STACK = [
 export const DIFFERENTIATORS = [
   {
     title: "AI-Native Delivery",
-    description: "We use AI tools internally to build 60% faster than traditional agencies — passing speed and savings to you.",
+    description: "We use AI tools internally to build 60% faster than traditional agencies, passing speed and savings to you.",
     icon: Brain,
   },
   {
     title: "Fixed-Scope Packages",
-    description: "No surprise invoices. Every package has a defined scope, timeline, and deliverable — agreed upfront.",
+    description: "No surprise invoices. Every package has a defined scope, timeline, and deliverable, agreed upfront.",
     icon: ShieldCheck,
   },
   {
@@ -415,7 +415,7 @@ export const DIFFERENTIATORS = [
   },
   {
     title: "End-to-End Coverage",
-    description: "From idea to deployment, design to automation — everything under one roof so nothing falls between the gaps.",
+    description: "From idea to deployment, design to automation, everything under one roof so nothing falls between the gaps.",
     icon: Settings,
   },
 ] as const;

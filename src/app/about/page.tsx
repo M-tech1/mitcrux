@@ -6,8 +6,8 @@ import { ContactSection }  from "@/components/sections/ContactSection";
 import { GlowOrb, DotGrid, SectionTag } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "About — Our Story & Values",
-  description: "Learn about Mitcrux — Africa's AI-native tech partner built in Abuja with a mission to deliver world-class digital solutions at African-first pricing.",
+  title: "About: Our Story & Values",
+  description: "Learn about Mitcrux, Africa's AI-native tech partner built in Abuja with a mission to deliver world-class digital solutions at African-first pricing.",
 };
 
 export default function AboutPage() {
@@ -25,7 +25,7 @@ export default function AboutPage() {
             <span className="text-gradient">Delivered to the world.</span>
           </h1>
           <p className="text-xl font-light leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            We started with a simple belief — that African businesses deserve the same
+            We started with a simple belief: that African businesses deserve the same
             quality of AI-powered technology that enterprises in London, New York, and
             Tokyo take for granted. So we built it.
           </p>
