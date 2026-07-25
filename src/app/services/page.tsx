@@ -3,7 +3,7 @@ import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ContactSection }  from "@/components/sections/ContactSection";
 
 export const metadata: Metadata = {
-  title: "Services — AI-Powered Digital Solutions",
+  title: "Services: AI-Powered Digital Solutions",
   description: "Explore Mitcrux's full suite across 4 divisions: Digital Solutions, Managed IT, Business Support, and Growth & Specialized services.",
 };
 
