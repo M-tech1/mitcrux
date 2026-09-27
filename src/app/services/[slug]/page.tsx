@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, ArrowLeft, CheckCircle2, Clock } from "lucide-react";
+import { ArrowRight, ArrowLeft, CheckCircle2, Clock, ClipboardList } from "lucide-react";
 import { SERVICES } from "@/lib/constants";
 import { ServiceIcon, SectionTag, GlowOrb, DotGrid, Badge } from "@/components/ui";
 import { ContactSection } from "@/components/sections/ContactSection";
@@ -9,6 +9,26 @@ import { ServicesSection } from "@/components/sections/ServicesSection";
 
 // Pricing/packages module is hidden for now — flip to true to bring it back.
 const SHOW_PRICING = false;
+
+// Standalone questionnaires served from /public/forms, keyed by service slug.
+type IntakeForm = { href: string; label: string; eyebrow: string; heading: string; body: string };
+
+const INTAKE_FORMS: Record<string, IntakeForm> = {
+  "product-design": {
+    href: "/forms/brand-discovery.html",
+    label: "Start Brand Discovery",
+    eyebrow: "Start here · Takes 5–8 minutes",
+    heading: "Tell us about your brand",
+    body: "Answer a few questions about your business, audience and style. We'll use your answers to shape a tailored proposal, so there's no back-and-forth before we begin.",
+  },
+  "mvp-development": {
+    href: "/forms/website-app-brief.html",
+    label: "Start Your Project Brief",
+    eyebrow: "Start here · Takes 4–6 minutes",
+    heading: "Tell us what you want to build",
+    body: "A few quick questions about your business, what you need built and how it should look. Your answers become the brief for your project, so we can scope and quote it fast.",
+  },
+};
 
 type Props = { params: { slug: string } };
 
@@ -28,6 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default function ServiceDetailPage({ params }: Props) {
   const service = SERVICES.find((s) => s.slug === params.slug);
   if (!service) notFound();
+  const intakeForm = INTAKE_FORMS[service.slug];
 
   return (
     <>
@@ -107,6 +128,45 @@ export default function ServiceDetailPage({ params }: Props) {
               </ul>
             </div>
           </div>
+
+          {/* Intake form CTA */}
+          {intakeForm && (
+            <div
+              className="mt-16 relative overflow-hidden rounded-2xl border p-8 md:p-10 flex flex-col md:flex-row md:items-center gap-8"
+              style={{
+                background: `linear-gradient(135deg, ${service.accent}1f 0%, ${service.accent}08 60%, transparent 100%)`,
+                borderColor: `${service.accent}40`,
+              }}
+            >
+              <div
+                className="shrink-0 w-14 h-14 rounded-xl flex items-center justify-center"
+                style={{ background: `${service.accent}20`, color: service.accent }}
+              >
+                <ClipboardList className="w-7 h-7" strokeWidth={1.75} />
+              </div>
+              <div className="flex-1">
+                <p className="font-mono text-2xs tracking-widest uppercase mb-2" style={{ color: service.accent }}>
+                  {intakeForm.eyebrow}
+                </p>
+                <h2 className="font-display font-bold text-2xl md:text-3xl tracking-tight mb-2" style={{ color: "var(--text-primary)" }}>
+                  {intakeForm.heading}
+                </h2>
+                <p className="leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                  {intakeForm.body}
+                </p>
+              </div>
+              <a
+                href={intakeForm.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:brightness-110 group"
+                style={{ background: service.accent, boxShadow: `0 10px 30px -10px ${service.accent}` }}
+              >
+                {intakeForm.label}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+            </div>
+          )}
         </div>
       </section>
 
