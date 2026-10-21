@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { Spinner } from "@/components/admin/Spinner";
 
 export default function AdminRootPage() {
   const { user, loading } = useAuth();
@@ -16,7 +17,7 @@ export default function AdminRootPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+      <Spinner label="Redirecting" />
     </div>
   );
 }

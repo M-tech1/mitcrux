@@ -4,9 +4,10 @@ export const metadata: Metadata = { title: "Terms of Service" };
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-surface-950 pt-36 pb-24">
-      <div className="max-w-3xl mx-auto px-6">
-        <h1 className="font-display font-extrabold text-4xl text-white mb-8">Terms of Service</h1>
+    <div className="relative min-h-screen pt-36 md:pt-44 pb-24">
+      <div className="absolute inset-x-0 top-0 h-[28rem] bg-ambient" aria-hidden="true" />
+      <div className="relative max-w-3xl mx-auto px-5 sm:px-6">
+        <h1 className="font-h1 text-h2 text-white mb-10">Terms of Service</h1>
         <div className="space-y-8 text-slate-400 leading-relaxed">
           <p>By engaging Mitcrux for any services, you agree to the following terms.</p>
           <div>
@@ -23,7 +24,7 @@ export default function TermsPage() {
           </div>
           <div>
             <h2 className="font-display font-bold text-white text-xl mb-3">Contact</h2>
-            <p>Questions? Reach us at <a href="mailto:info@mitcrux.com" className="text-cyan-400">info@mitcrux.com</a></p>
+            <p>Questions? Reach us at <a href="mailto:info@mitcrux.com" className="font-medium underline underline-offset-4" style={{ color: "var(--text-accent)" }}>info@mitcrux.com</a></p>
           </div>
         </div>
       </div>

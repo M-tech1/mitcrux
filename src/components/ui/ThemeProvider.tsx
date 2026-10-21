@@ -22,15 +22,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
 
-  /* On mount — read from localStorage or system preference */
+  /* On mount — sync with the class the inline script in layout.tsx already applied
+     (stored preference, else system preference). */
   useEffect(() => {
-    const stored = localStorage.getItem("mitcrux-theme") as Theme | null;
-    if (stored) {
-      setTheme(stored);
-    } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "dark" : "light");
-    }
+    setTheme(document.documentElement.classList.contains("light") ? "light" : "dark");
     setMounted(true);
   }, []);
 
@@ -40,14 +35,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const root = document.documentElement;
     root.classList.remove("dark", "light");
     root.classList.add(theme);
-    localStorage.setItem("mitcrux-theme", theme);
+    try {
+      localStorage.setItem("mitcrux-theme", theme);
+    } catch {
+      /* storage unavailable (private mode) — theme still applies for this visit */
+    }
   }, [theme, mounted]);
 
   const toggle = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
 
-  /* Prevent flash of wrong theme */
-  if (!mounted) return null;
-
+  /* Children always render (server HTML included); the pre-paint script prevents a theme flash. */
   return (
     <ThemeContext.Provider value={{ theme, toggle }}>
       {children}

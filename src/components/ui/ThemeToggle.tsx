@@ -9,34 +9,27 @@ export function ThemeToggle({ className }: { className?: string }) {
 
   return (
     <button
+      type="button"
       onClick={toggle}
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       className={cn(
-        "relative w-9 h-9 rounded-xl flex items-center justify-center",
-        "border transition-all duration-300",
-        "dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10 dark:text-slate-400 dark:hover:text-white",
-        "border-slate-200 bg-white/80 hover:bg-slate-100 text-slate-500 hover:text-slate-800",
-        "shadow-sm",
+        "relative w-10 h-10 rounded-xl flex items-center justify-center",
+        "border transition-colors duration-300",
+        "border-[var(--glass-border)] bg-[var(--glass-bg)] hover:border-[var(--border-hover)]",
+        "text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
         className
       )}
     >
+      {/* Icons are driven by the <html> class so they are correct on first paint */}
       {/* Sun — shown in dark mode (click to go light) */}
       <Sun
-        className={cn(
-          "w-4 h-4 absolute transition-all duration-300",
-          theme === "dark"
-            ? "opacity-100 rotate-0 scale-100"
-            : "opacity-0 -rotate-90 scale-50"
-        )}
+        aria-hidden="true"
+        className="w-4 h-4 absolute transition-all duration-300 opacity-0 -rotate-90 scale-50 dark:opacity-100 dark:rotate-0 dark:scale-100"
       />
       {/* Moon — shown in light mode (click to go dark) */}
       <Moon
-        className={cn(
-          "w-4 h-4 absolute transition-all duration-300",
-          theme === "light"
-            ? "opacity-100 rotate-0 scale-100"
-            : "opacity-0 rotate-90 scale-50"
-        )}
+        aria-hidden="true"
+        className="w-4 h-4 absolute transition-all duration-300 opacity-100 rotate-0 scale-100 dark:opacity-0 dark:rotate-90 dark:scale-50"
       />
     </button>
   );

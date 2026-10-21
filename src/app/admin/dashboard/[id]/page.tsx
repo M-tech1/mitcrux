@@ -12,29 +12,10 @@ import {
   SubmissionStatus,
 } from "@/lib/firestore";
 import { AuthGuard } from "@/components/admin/AuthGuard";
-import { SERVICES } from "@/lib/constants";
-import { ArrowLeft, Mail, Trash2 } from "lucide-react";
+import { AdminHeader, Avatar, Spinner, StatusBadge } from "@/components/admin/AdminUI";
+import { STATUS_META, STATUS_ORDER, budgetLabel, serviceLabel } from "@/components/admin/meta";
+import { ArrowLeft, Mail, Trash2, AlertCircle, Building2, Wallet, Layers, CalendarClock } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-/* ── Lookup maps ─────────────────────────────────────────────────────────── */
-
-const SERVICE_MAP = Object.fromEntries(SERVICES.map((s) => [s.id, s.title]));
-
-const BUDGET_LABELS: Record<string, string> = {
-  "under-500":   "Under $500",
-  "500-2000":    "$500 – $2,000",
-  "2000-10000":  "$2,000 – $10,000",
-  "10000-50000": "$10,000 – $50,000",
-  "50000+":      "$50,000+",
-  "unsure":      "Not sure yet",
-};
-
-const STATUS_OPTIONS: Array<{ value: SubmissionStatus; label: string; activeCls: string }> = [
-  { value: "new",      label: "New",      activeCls: "border-cyan-500/50 text-cyan-400 bg-cyan-500/10" },
-  { value: "read",     label: "Read",     activeCls: "border-amber-500/50 text-amber-400 bg-amber-500/10" },
-  { value: "replied",  label: "Replied",  activeCls: "border-emerald-500/50 text-emerald-400 bg-emerald-500/10" },
-  { value: "archived", label: "Archived", activeCls: "border-slate-500/50 text-slate-400 bg-slate-500/10" },
-];
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
 
@@ -46,15 +27,31 @@ function formatFullDate(ts: Timestamp | null) {
   });
 }
 
+function DetailRow({ icon: Icon, label, children }: { icon: typeof Mail; label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-start gap-3">
+      <span className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-brand-500/10 border border-[var(--glass-border)]">
+        <Icon className="w-4 h-4 text-cyan-300" aria-hidden="true" />
+      </span>
+      <div className="min-w-0">
+        <p className="text-xs" style={{ color: "var(--text-muted)" }}>{label}</p>
+        <div className="text-sm font-medium break-words" style={{ color: "var(--text-primary)" }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
 /* ── Detail content (rendered inside AuthGuard) ──────────────────────────── */
 
 function DetailContent({ id }: { id: string }) {
   const router = useRouter();
   const [submission, setSubmission] = useState<ContactSubmission | null>(null);
   const [loading, setLoading]       = useState(true);
+  const [loadError, setLoadError]   = useState(false);
   const [updating, setUpdating]     = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting]     = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   useEffect(() => {
     getSubmission(id)
@@ -63,20 +60,30 @@ function DetailContent({ id }: { id: string }) {
       })
       .catch((err) => {
         console.error("Failed to load submission:", err);
+        setLoadError(true);
       })
       .finally(() => {
         setLoading(false);
       });
   }, [id]);
 
+  // A pending "Confirm delete?" quietly resets if not confirmed
+  useEffect(() => {
+    if (!confirmDelete || deleting) return;
+    const t = setTimeout(() => setConfirmDelete(false), 4000);
+    return () => clearTimeout(t);
+  }, [confirmDelete, deleting]);
+
   const handleStatusChange = async (status: SubmissionStatus) => {
     if (!submission || updating || submission.status === status) return;
     setUpdating(true);
+    setActionError(null);
     try {
       await updateSubmissionStatus(id, status);
       setSubmission((prev) => (prev ? { ...prev, status } : prev));
     } catch (err) {
       console.error("Failed to update status:", err);
+      setActionError("Couldn't update the status. Check your connection and try again.");
     } finally {
       setUpdating(false);
     }
@@ -85,152 +92,156 @@ function DetailContent({ id }: { id: string }) {
   const handleDelete = async () => {
     if (!confirmDelete) { setConfirmDelete(true); return; }
     setDeleting(true);
+    setActionError(null);
     try {
       await deleteSubmission(id);
       router.replace("/admin/dashboard");
     } catch (err) {
       console.error("Failed to delete submission:", err);
+      setActionError("Couldn't delete this enquiry. Check your connection and try again.");
       setDeleting(false);
       setConfirmDelete(false);
     }
   };
 
+  const backLink = (
+    <Link
+      href="/admin/dashboard"
+      className="flex items-center gap-2 text-sm font-medium rounded-lg transition-colors hover:text-[var(--text-primary)]"
+      style={{ color: "var(--text-secondary)" }}
+    >
+      <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+      All enquiries
+    </Link>
+  );
+
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
+    return <div className="min-h-screen flex items-center justify-center"><Spinner label="Loading enquiry" /></div>;
   }
 
   if (!submission) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-        <p className="text-slate-500">Submission not found.</p>
-        <Link href="/admin/dashboard" className="text-blue-400 text-sm hover:text-blue-300 transition-colors">
-          ← Back to dashboard
-        </Link>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-6 text-center">
+        {loadError && <AlertCircle className="w-9 h-9 text-red-400" aria-hidden="true" />}
+        <p style={{ color: "var(--text-secondary)" }}>
+          {loadError
+            ? "Couldn't load this enquiry. Your session may have expired; try reloading."
+            : "This enquiry doesn't exist or has been deleted."}
+        </p>
+        {backLink}
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen text-white">
-      {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-white/10 bg-[#080f1e]/90 backdrop-blur-md">
-        <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link
-            href="/admin/dashboard"
-            className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Dashboard
-          </Link>
+    <div className="min-h-screen">
+      <AdminHeader
+        width="max-w-5xl"
+        left={backLink}
+        right={
           <button
+            type="button"
             onClick={handleDelete}
             disabled={deleting}
             className={cn(
-              "flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg border transition-all disabled:opacity-50",
+              "flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-xl border transition-colors disabled:opacity-50",
               confirmDelete
-                ? "border-red-500/50 text-red-400 bg-red-500/10"
-                : "border-white/10 text-slate-500 hover:text-red-400 hover:border-red-500/30"
+                ? "border-red-400/50 text-red-300 bg-red-500/15"
+                : "border-[var(--glass-border)] bg-[var(--glass-bg)] hover:text-red-300 hover:border-red-400/40"
             )}
+            style={confirmDelete ? undefined : { color: "var(--text-secondary)" }}
           >
-            <Trash2 className="w-3.5 h-3.5" />
-            {deleting ? "Deleting…" : confirmDelete ? "Confirm delete?" : "Delete"}
+            <Trash2 className="w-4 h-4" aria-hidden="true" />
+            {deleting ? "Deleting…" : confirmDelete ? "Click again to delete" : "Delete"}
           </button>
+        }
+      />
+
+      <main className="max-w-5xl mx-auto px-5 sm:px-6 py-8 md:py-10">
+        {/* Who + when */}
+        <div className="flex flex-wrap items-center gap-4 mb-8">
+          <Avatar name={submission.name} size="lg" />
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <h1 className="font-h1 text-2xl md:text-3xl tracking-tight break-words">{submission.name}</h1>
+              <StatusBadge status={submission.status} />
+            </div>
+            <p className="text-sm mt-1 flex items-center gap-1.5" style={{ color: "var(--text-muted)" }}>
+              <CalendarClock className="w-4 h-4" aria-hidden="true" />
+              {formatFullDate(submission.submittedAt)}
+            </p>
+          </div>
         </div>
-      </header>
 
-      <main className="max-w-4xl mx-auto px-6 py-8">
-        {/* Timestamp */}
-        <p className="text-slate-600 text-xs font-mono mb-6">{formatFullDate(submission.submittedAt)}</p>
+        {actionError && (
+          <div role="alert" className="flex items-center gap-2 mb-5 p-3.5 rounded-xl bg-red-500/10 border border-red-400/30 text-sm text-red-300">
+            <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
+            {actionError}
+          </div>
+        )}
 
-        {/* Contact + Project info */}
-        <div className="grid md:grid-cols-2 gap-4 mb-4">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <p className="text-slate-600 text-xs font-mono tracking-widest uppercase mb-4">Contact</p>
-            <div className="space-y-3">
-              <div>
-                <p className="text-slate-500 text-xs mb-0.5">Name</p>
-                <p className="text-white text-sm font-medium">{submission.name}</p>
-              </div>
-              <div>
-                <p className="text-slate-500 text-xs mb-0.5">Email</p>
-                <a
-                  href={`mailto:${submission.email}`}
-                  className="text-blue-400 text-sm hover:text-blue-300 transition-colors"
-                >
+        <div className="grid lg:grid-cols-[1fr_20rem] gap-5 items-start">
+          {/* Message: the main thing to read */}
+          <section className="card-surface p-6 md:p-7" aria-labelledby="msg-h">
+            <h2 id="msg-h" className="text-sm font-semibold mb-4" style={{ color: "var(--text-accent)" }}>Message</h2>
+            <p className="text-[0.95rem] leading-relaxed whitespace-pre-wrap break-words" style={{ color: "var(--text-primary)" }}>
+              {submission.message}
+            </p>
+          </section>
+
+          {/* Side column */}
+          <div className="space-y-5">
+            <section className="card-surface p-6 space-y-4" aria-labelledby="contact-h">
+              <h2 id="contact-h" className="text-sm font-semibold" style={{ color: "var(--text-accent)" }}>Contact</h2>
+              <DetailRow icon={Mail} label="Email">
+                <a href={`mailto:${submission.email}`} className="text-cyan-300 hover:underline underline-offset-4">
                   {submission.email}
                 </a>
-              </div>
+              </DetailRow>
               {submission.company && (
-                <div>
-                  <p className="text-slate-500 text-xs mb-0.5">Company</p>
-                  <p className="text-white text-sm">{submission.company}</p>
-                </div>
+                <DetailRow icon={Building2} label="Company">{submission.company}</DetailRow>
               )}
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <p className="text-slate-600 text-xs font-mono tracking-widest uppercase mb-4">Project</p>
-            <div className="space-y-3">
-              <div>
-                <p className="text-slate-500 text-xs mb-0.5">Service</p>
-                <p className="text-white text-sm font-medium">
-                  {SERVICE_MAP[submission.service] ?? submission.service}
-                </p>
-              </div>
+              <DetailRow icon={Layers} label="Service">{serviceLabel(submission.service)}</DetailRow>
               {submission.budget && (
-                <div>
-                  <p className="text-slate-500 text-xs mb-0.5">Budget</p>
-                  <p className="text-white text-sm">
-                    {BUDGET_LABELS[submission.budget] ?? submission.budget}
-                  </p>
-                </div>
+                <DetailRow icon={Wallet} label="Budget">{budgetLabel(submission.budget)}</DetailRow>
               )}
-            </div>
-          </div>
-        </div>
+            </section>
 
-        {/* Message */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 mb-4">
-          <p className="text-slate-600 text-xs font-mono tracking-widest uppercase mb-4">Message</p>
-          <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">{submission.message}</p>
-        </div>
-
-        {/* Status + actions */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-slate-600 text-xs font-mono tracking-widest uppercase mb-4">Status & Actions</p>
-
-          {/* Status pills */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {STATUS_OPTIONS.map(({ value, label, activeCls }) => (
-              <button
-                key={value}
-                onClick={() => handleStatusChange(value)}
-                disabled={updating}
-                className={cn(
-                  "px-4 py-1.5 rounded-full text-sm border font-mono transition-all disabled:opacity-50",
-                  submission.status === value
-                    ? activeCls
-                    : "border-white/10 text-slate-600 hover:border-white/20 hover:text-slate-400"
-                )}
+            <section className="glass-panel p-6" aria-labelledby="status-h">
+              <h2 id="status-h" className="text-sm font-semibold mb-4" style={{ color: "var(--text-accent)" }}>Status</h2>
+              <div className="grid grid-cols-2 gap-2 mb-5" role="group" aria-label="Set status">
+                {STATUS_ORDER.map((value) => {
+                  const active = submission.status === value;
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => handleStatusChange(value)}
+                      disabled={updating}
+                      aria-pressed={active}
+                      className={cn(
+                        "flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium border transition-colors disabled:opacity-50",
+                        active
+                          ? STATUS_META[value].badge
+                          : "border-[var(--border-card)] hover:border-white/20"
+                      )}
+                      style={active ? undefined : { color: "var(--text-secondary)" }}
+                    >
+                      <span className={cn("w-1.5 h-1.5 rounded-full", STATUS_META[value].dot)} aria-hidden="true" />
+                      {STATUS_META[value].label}
+                    </button>
+                  );
+                })}
+              </div>
+              <a
+                href={`mailto:${submission.email}?subject=Re: Your Mitcrux Enquiry`}
+                className="btn-primary w-full justify-center"
               >
-                {label}
-              </button>
-            ))}
+                <Mail className="w-4 h-4" aria-hidden="true" />
+                Reply via email
+              </a>
+            </section>
           </div>
-
-          {/* Reply button */}
-          <a
-            href={`mailto:${submission.email}?subject=Re: Your Mitcrux Enquiry`}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600/20 border border-blue-500/30 text-blue-400 hover:bg-blue-600/30 hover:border-blue-500/50 transition-all text-sm font-medium"
-          >
-            <Mail className="w-4 h-4" />
-            Reply via Email
-          </a>
         </div>
       </main>
     </div>

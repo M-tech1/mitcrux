@@ -11,6 +11,14 @@ async function loadGSAP() {
   return { gsap, ScrollTrigger };
 }
 
+/* ── Reduced motion: skip GSAP entirely so content stays in its natural state ── */
+export function prefersReducedMotion() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
 /* ── Helper: typed ref that satisfies JSX ref prop ───────────────────────── */
 // useRef<T>(null) in React 18 returns MutableRefObject<T | null>.
 // JSX ref= expects RefObject<T> (non-null). We cast once here so
@@ -45,10 +53,12 @@ export function useReveal<T extends HTMLElement>(
   } = options;
 
   useEffect(() => {
+    if (prefersReducedMotion()) return;
     let ctx: { revert: () => void } | null = null;
+    let cancelled = false;
 
     loadGSAP().then(({ gsap, ScrollTrigger }) => {
-      if (!ref.current) return;
+      if (cancelled || !ref.current) return;
       const targets = selector
         ? ref.current.querySelectorAll(selector)
         : [ref.current];
@@ -56,7 +66,8 @@ export function useReveal<T extends HTMLElement>(
       ctx = gsap.context(() => {
         gsap.fromTo(
           targets,
-          { y, x, opacity },
+          // CSS transitions are suspended during the tween so they don't re-ease every frame
+          { y, x, opacity, transition: "none" },
           {
             y: 0,
             x: 0,
@@ -65,6 +76,7 @@ export function useReveal<T extends HTMLElement>(
             stagger,
             delay,
             ease,
+            clearProps: "transform,transition", // hand control back to CSS hover states
             scrollTrigger: {
               trigger: ref.current,
               start: "top 88%",
@@ -75,7 +87,10 @@ export function useReveal<T extends HTMLElement>(
       });
     });
 
-    return () => ctx?.revert();
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -103,20 +118,24 @@ export function useStagger<T extends HTMLElement>(
   } = options;
 
   useEffect(() => {
+    if (prefersReducedMotion()) return;
     let ctx: { revert: () => void } | null = null;
+    let cancelled = false;
 
     loadGSAP().then(({ gsap, ScrollTrigger }) => {
-      if (!ref.current) return;
+      if (cancelled || !ref.current) return;
       ctx = gsap.context(() => {
         gsap.fromTo(
           ref.current!.querySelectorAll(childSelector),
-          { y, opacity: 0 },
+          // CSS transitions are suspended during the tween so they don't re-ease every frame
+          { y, opacity: 0, transition: "none" },
           {
             y: 0,
             opacity: 1,
             duration,
             stagger,
             ease,
+            clearProps: "transform,transition", // hand control back to CSS hover states
             scrollTrigger: {
               trigger: ref.current,
               start,
@@ -127,7 +146,10 @@ export function useStagger<T extends HTMLElement>(
       });
     });
 
-    return () => ctx?.revert();
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -139,10 +161,12 @@ export function useHeroTimeline<T extends HTMLElement>(): RefObject<T> {
   const ref = makeRef<T>();
 
   useEffect(() => {
+    if (prefersReducedMotion()) return;
     let ctx: { revert: () => void } | null = null;
+    let cancelled = false;
 
     loadGSAP().then(({ gsap }) => {
-      if (!ref.current) return;
+      if (cancelled || !ref.current) return;
       ctx = gsap.context(() => {
         const tl = gsap.timeline({ delay: 0.15 });
         const root = ref.current!;
@@ -165,7 +189,10 @@ export function useHeroTimeline<T extends HTMLElement>(): RefObject<T> {
       });
     });
 
-    return () => ctx?.revert();
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -177,10 +204,12 @@ export function useParallax<T extends HTMLElement>(speed = 0.3): RefObject<T> {
   const ref = makeRef<T>();
 
   useEffect(() => {
+    if (prefersReducedMotion()) return;
     let ctx: { revert: () => void } | null = null;
+    let cancelled = false;
 
     loadGSAP().then(({ gsap, ScrollTrigger }) => {
-      if (!ref.current) return;
+      if (cancelled || !ref.current) return;
       ctx = gsap.context(() => {
         gsap.to(ref.current, {
           yPercent: -100 * speed,
@@ -195,7 +224,10 @@ export function useParallax<T extends HTMLElement>(speed = 0.3): RefObject<T> {
       });
     });
 
-    return () => ctx?.revert();
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -211,10 +243,12 @@ export function useCounter<T extends HTMLElement>(
   const { duration = 2, prefix = "", suffix = "" } = options;
 
   useEffect(() => {
+    if (prefersReducedMotion()) return;
     let ctx: { revert: () => void } | null = null;
+    let cancelled = false;
 
     loadGSAP().then(({ gsap, ScrollTrigger }) => {
-      if (!ref.current) return;
+      if (cancelled || !ref.current) return;
       ctx = gsap.context(() => {
         const obj = { val: 0 };
         gsap.to(obj, {
@@ -234,7 +268,10 @@ export function useCounter<T extends HTMLElement>(
       });
     });
 
-    return () => ctx?.revert();
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -247,7 +284,7 @@ export function useMagnetic<T extends HTMLElement>(strength = 0.4): RefObject<T>
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || prefersReducedMotion()) return;
 
     let gsapInstance: typeof import("gsap").gsap | null = null;
     loadGSAP().then(({ gsap }) => { gsapInstance = gsap; });

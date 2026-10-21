@@ -1,26 +1,37 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight, Zap } from "lucide-react";
+import { Menu, X, ArrowRight, Mail, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { NAV_LINKS } from "@/lib/constants";
 import Image from "next/image";
 import logo from "../../../public/assets/logo.png";
 
+function isActive(pathname: string, href: string) {
+  return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function Wordmark() {
+  return (
+    <span className="font-display font-extrabold text-xl tracking-tight">
+      <span style={{ color: "var(--text-primary)" }}>MIT</span>
+      <span className="text-gradient">CRUX</span>
+    </span>
+  );
+}
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
-  const navRef = useRef<HTMLElement>(null);
 
   /* Scroll detection */
   useEffect(() => {
-    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -30,76 +41,71 @@ export function Navbar() {
     setMenuOpen(false);
   }, [pathname]);
 
-  /* Lock body scroll when menu open */
+  /* Lock body scroll + close on Escape while the menu is open */
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    if (menuOpen) window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
     };
   }, [menuOpen]);
 
   return (
     <>
-      <nav
-        ref={navRef}
+      <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-          scrolled
-            ? "py-3 backdrop-blur-xl border-b border-[var(--border-subtle)] shadow-brand-sm"
-            : "py-5 bg-transparent",
+          "fixed top-0 left-0 right-0 z-50 transition-[padding,background-color,border-color,box-shadow] duration-500",
+          scrolled || menuOpen
+            ? "py-3 border-b border-[var(--border-subtle)] bg-[var(--nav-bg)] backdrop-blur-xl shadow-[0_8px_30px_rgba(2,8,23,0.12)]"
+            : "py-5 border-b border-transparent bg-transparent",
         )}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 flex items-center justify-between gap-6">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group">
-            {/* <div className="relative w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-cyan-500 flex items-center justify-center shadow-glow-blue group-hover:shadow-glow-cyan transition-all duration-300"> */}
-            {/* <Zap className="w-4 h-4 text-white" strokeWidth={2.5} /> */}
-            <Image
-              src={logo}
-              alt="Logo Image"
-              sizes="30"
-              className="w-12 
-               "
-            />
-            {/* <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-brand-500 to-cyan-500 opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-300" /> */}
-            {/* </div> */}
-            <span
-              className="font-display font-extrabold text-xl tracking-tight"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              <span style={{ color: "var(--text-primary)" }}>MIT</span>
-              <span className="text-gradient">CRUX</span>
-            </span>
+          <Link href="/" className="flex items-center gap-2.5 rounded-lg" aria-label="Mitcrux home">
+            <Image src={logo} alt="" sizes="44px" className="w-11 h-auto" priority />
+            <Wordmark />
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
-            {NAV_LINKS.map((link) => {
-              const active = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "px-4 py-2 rounded-lg text-sm font-body font-medium transition-all duration-200",
-                    active
-                      ? "text-brand-600 dark:text-cyan-400 bg-brand-600/10"
-                      : "text-slate-400 hover:text-white hover:bg-white/5",
-                  )}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-          </div>
+          <nav aria-label="Primary" className="hidden md:block">
+            <ul className="flex items-center gap-1 rounded-2xl p-1 border border-[var(--glass-border)] bg-[var(--glass-bg)]">
+              {NAV_LINKS.map((link) => {
+                const active = isActive(pathname, link.href);
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "relative block px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-200",
+                        active
+                          ? "text-[var(--text-primary)] bg-[var(--bg-card)] shadow-[inset_0_1px_0_var(--glass-highlight)]"
+                          : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
+                      )}
+                    >
+                      {link.label}
+                      {active && (
+                        <span
+                          aria-hidden="true"
+                          className="absolute left-1/2 -translate-x-1/2 -bottom-px h-px w-6 bg-gradient-to-r from-brand-400 to-cyan-300"
+                        />
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
 
           {/* CTA + Theme */}
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
-            <Link
-              href="/contact"
-              className="btn-primary text-sm px-5 py-2.5 group"
-            >
+            <Link href="/contact" className="btn-primary text-sm px-5 py-2.5 group">
               Get Started
               <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
             </Link>
@@ -109,86 +115,84 @@ export function Navbar() {
           <div className="flex items-center gap-2 md:hidden">
             <ThemeToggle />
             <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
-              aria-label="Toggle menu"
+              type="button"
+              onClick={() => setMenuOpen((o) => !o)}
+              className="w-10 h-10 flex items-center justify-center rounded-xl border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] transition-colors"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
             >
-              {menuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
+              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
-      </nav>
+      </header>
 
       {/* Mobile Menu Overlay */}
       <div
+        id="mobile-menu"
         className={cn(
-          "fixed inset-0 z-40 md:hidden transition-all duration-400",
-          menuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none",
+          "fixed inset-0 z-40 md:hidden transition-[opacity,visibility] duration-300",
+          menuOpen ? "visible opacity-100" : "invisible opacity-0",
         )}
       >
         {/* Backdrop */}
         <div
-          className="absolute inset-0 backdrop-blur-2xl bg-[var(--bg-page)]"
+          className="absolute inset-0 bg-[var(--bg-page)]"
           onClick={() => setMenuOpen(false)}
-        />
+          aria-hidden="true"
+        >
+          <div className="absolute inset-0 bg-ambient" />
+        </div>
 
         {/* Menu content */}
         <div
           className={cn(
-            "relative h-full flex flex-col px-6 pt-24 pb-10 transition-all duration-400",
-            menuOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0",
+            "relative h-full flex flex-col px-5 pt-24 pb-10 overflow-y-auto transition-transform duration-300",
+            menuOpen ? "translate-y-0" : "-translate-y-3",
           )}
         >
-          {/* Links */}
-          <nav className="flex flex-col gap-1 flex-1">
-            {NAV_LINKS.map((link, i) => {
-              const active = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "flex items-center justify-between px-4 py-4 rounded-xl text-lg font-display font-semibold transition-all duration-200",
-                    active
-                      ? "text-cyan-400 bg-brand-600/15 border border-brand-500/20"
-                      : "text-slate-300 hover:text-white hover:bg-white/5",
-                  )}
-                  style={{ transitionDelay: menuOpen ? `${i * 50}ms` : "0ms" }}
-                >
-                  {link.label}
-                  <ArrowRight className="w-4 h-4 opacity-40" />
-                </Link>
-              );
-            })}
+          <nav aria-label="Mobile" className="flex-1">
+            <ul className="flex flex-col gap-1.5">
+              {NAV_LINKS.map((link) => {
+                const active = isActive(pathname, link.href);
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "flex items-center justify-between px-5 py-4 rounded-2xl text-lg font-display font-semibold border transition-colors duration-200",
+                        active
+                          ? "border-[var(--border-hover)] bg-[var(--glass-bg)] text-[var(--text-primary)]"
+                          : "border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-bg)]",
+                      )}
+                    >
+                      {link.label}
+                      <ArrowRight
+                        className={cn("w-4 h-4", active ? "text-cyan-300" : "opacity-40")}
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           </nav>
 
           {/* Bottom CTA */}
-          <div className="pt-6 border-t border-white/10">
-            <Link
-              href="/contact"
-              className="btn-primary w-full justify-center text-base py-4"
-            >
+          <div className="pt-6 mt-6 border-t border-[var(--border-subtle)]">
+            <Link href="/contact" className="btn-primary w-full justify-center text-base py-4">
               Start a Project
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <div className="flex items-center justify-center gap-6 mt-6">
-              <a
-                href="mailto:info@mitcrux.com"
-                className="text-sm text-slate-500 hover:text-slate-300 transition-colors"
-              >
+            <div className="flex flex-col items-center gap-3 mt-6 text-sm" style={{ color: "var(--text-secondary)" }}>
+              <a href="mailto:info@mitcrux.com" className="inline-flex items-center gap-2 hover:text-[var(--text-primary)] transition-colors">
+                <Mail className="w-4 h-4" aria-hidden="true" />
                 info@mitcrux.com
               </a>
-              <span className="text-slate-700">·</span>
-              <a
-                href="tel:+2349026611164"
-                className="text-sm text-slate-500 hover:text-slate-300 transition-colors"
-              >
+              <a href="tel:+2349026611164" className="inline-flex items-center gap-2 hover:text-[var(--text-primary)] transition-colors">
+                <Phone className="w-4 h-4" aria-hidden="true" />
                 +234 902 661 1164
               </a>
             </div>

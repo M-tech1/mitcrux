@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, ArrowLeft, CheckCircle2, Clock, ClipboardList } from "lucide-react";
 import { SERVICES } from "@/lib/constants";
-import { ServiceIcon, SectionTag, GlowOrb, DotGrid, Badge } from "@/components/ui";
+import { ServiceIcon, SectionTag } from "@/components/ui";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 
@@ -53,48 +53,49 @@ export default function ServiceDetailPage({ params }: Props) {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative pt-36 pb-20 overflow-hidden" style={{ background: "var(--bg-page)" }}>
-        <DotGrid className="opacity-40" />
-        <GlowOrb color="brand" size="xl" className="-left-32 -top-32 opacity-[0.1]" />
+      <section className="relative pt-32 md:pt-40 pb-16 md:pb-20 overflow-hidden">
+        <div className="absolute inset-0 bg-ambient" aria-hidden="true" />
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.10]"
           style={{
-            background: `radial-gradient(ellipse at 30% 50%, ${service.accent} 0%, transparent 70%)`,
+            background: `radial-gradient(ellipse at 25% 40%, ${service.accent} 0%, transparent 60%)`,
           }}
+          aria-hidden="true"
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
+        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6">
           {/* Back link */}
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 text-slate-500 hover:text-white text-sm mb-10 group transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium mb-10 group rounded-lg transition-colors hover:text-[var(--text-primary)]"
+            style={{ color: "var(--text-secondary)" }}
           >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" aria-hidden="true" />
             All Services
           </Link>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left */}
-            <div>
+            <div className="anim-rise">
               <div className="flex items-center gap-3 mb-6">
                 <ServiceIcon icon={service.icon} accent={service.accent} size="lg" className="group" />
                 <span
-                  className="text-xs font-mono tracking-widest uppercase px-3 py-1 rounded-lg border"
-                  style={{ color: service.accent, background: `${service.accent}15`, borderColor: `${service.accent}30` }}
+                  className="text-xs font-semibold px-3 py-1 rounded-lg border"
+                  style={{ color: "var(--text-accent)", background: `${service.accent}15`, borderColor: `${service.accent}30` }}
                 >
                   {service.category}
                 </span>
               </div>
 
-              <h1 className="font-display font-extrabold text-4xl md:text-5xl xl:text-6xl leading-tight tracking-tight mb-6" style={{ color: "var(--text-primary)" }}>
+              <h1 className="font-h1 text-h1 mb-6" style={{ color: "var(--text-primary)" }}>
                 {service.title}
               </h1>
-              <p className="text-xl font-light leading-relaxed mb-8" style={{ color: "var(--text-secondary)" }}>
+              <p className="text-lead mb-8" style={{ color: "var(--text-secondary)" }}>
                 {service.description}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link href="/contact" className="btn-primary px-7 py-3.5 group">
+                <Link href="/contact" className="btn-primary justify-center px-7 py-3.5 group">
                   Get a Quote
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
@@ -102,7 +103,7 @@ export default function ServiceDetailPage({ params }: Props) {
                   href="https://wa.me/2348065191675"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-ghost px-7 py-3.5"
+                  className="btn-ghost justify-center px-7 py-3.5"
                 >
                   WhatsApp Us
                 </a>
@@ -110,19 +111,20 @@ export default function ServiceDetailPage({ params }: Props) {
             </div>
 
             {/* Right — Features */}
-            <div className="rounded-2xl p-7 border" style={{ background: "var(--bg-card)", borderColor: "var(--border-card)" }}>
-              <p className="font-mono text-2xs tracking-widest uppercase text-slate-600 mb-5">
-                What's included
-              </p>
-              <ul className="grid sm:grid-cols-2 gap-3">
+            <div className="glass-panel p-7 md:p-8 anim-drift-in" style={{ "--d": "150ms" } as React.CSSProperties}>
+              <h2 className="font-display font-bold text-lg mb-5" style={{ color: "var(--text-primary)" }}>
+                What&apos;s included
+              </h2>
+              <ul className="grid sm:grid-cols-2 gap-x-4 gap-y-3.5">
                 {service.features.map((f, i) => (
-                  <li key={i} className="flex items-center gap-3">
+                  <li key={i} className="flex items-start gap-3">
                     <CheckCircle2
-                      className="w-4 h-4 shrink-0"
+                      className="w-4 h-4 shrink-0 mt-0.5"
                       style={{ color: service.accent }}
                       strokeWidth={2}
+                      aria-hidden="true"
                     />
-                    <span className="text-slate-300 text-sm">{f}</span>
+                    <span className="text-sm" style={{ color: "var(--text-secondary)" }}>{f}</span>
                   </li>
                 ))}
               </ul>
@@ -145,10 +147,10 @@ export default function ServiceDetailPage({ params }: Props) {
                 <ClipboardList className="w-7 h-7" strokeWidth={1.75} />
               </div>
               <div className="flex-1">
-                <p className="font-mono text-2xs tracking-widest uppercase mb-2" style={{ color: service.accent }}>
+                <p className="text-sm font-semibold mb-2" style={{ color: "var(--text-accent)" }}>
                   {intakeForm.eyebrow}
                 </p>
-                <h2 className="font-display font-bold text-2xl md:text-3xl tracking-tight mb-2" style={{ color: "var(--text-primary)" }}>
+                <h2 className="font-display font-bold text-h3 mb-2" style={{ color: "var(--text-primary)" }}>
                   {intakeForm.heading}
                 </h2>
                 <p className="leading-relaxed" style={{ color: "var(--text-secondary)" }}>
@@ -159,7 +161,7 @@ export default function ServiceDetailPage({ params }: Props) {
                 href={intakeForm.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="shrink-0 inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:brightness-110 group"
+                className="shrink-0 inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-[#ffffff] shadow-lg transition-all hover:-translate-y-0.5 hover:brightness-110 group"
                 style={{ background: service.accent, boxShadow: `0 10px 30px -10px ${service.accent}` }}
               >
                 {intakeForm.label}
@@ -172,7 +174,7 @@ export default function ServiceDetailPage({ params }: Props) {
 
       {/* ── Packages ── */}
       {SHOW_PRICING && (
-        <section className="py-24" style={{ background: "var(--bg-card-2)" }}>
+        <section className="py-24" style={{ background: "var(--bg-section-tint)" }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-14">
               <SectionTag className="mb-4">Pricing</SectionTag>
@@ -231,14 +233,7 @@ export default function ServiceDetailPage({ params }: Props) {
       <ContactSection />
 
       {/* ── Related services ── */}
-      <section className="py-20 border-t" style={{ background: "var(--bg-page)", borderColor: "var(--border-subtle)" }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="font-display font-bold text-2xl mb-8" style={{ color: "var(--text-primary)" }}>
-            Explore other services
-          </h2>
-          <ServicesSection preview />
-        </div>
-      </section>
+      <ServicesSection preview />
     </>
   );
 }

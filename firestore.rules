@@ -1,0 +1,140 @@
+rules_version = '2';
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  Mitcrux Firestore Security Rules
+//
+//  Publish: Firebase console → Firestore Database → Rules (paste and Publish),
+//  or `firebase deploy --only firestore:rules`.
+//
+//  BEFORE PUBLISHING: replace REPLACE_WITH_ADMIN_EMAIL below with the email of
+//  the admin account in Firebase Authentication. Only that account can read or
+//  manage enquiries and operations data. Emails are unique in Firebase Auth, so
+//  nobody else can sign up with it.
+// ═══════════════════════════════════════════════════════════════════════════
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == "REPLACE_WITH_ADMIN_EMAIL";
+    }
+
+    // ── Field helpers ────────────────────────────────────────────────────
+    function reqStr(d, k, max) { return k in d && d[k] is string && d[k].size() > 0 && d[k].size() <= max; }
+    function optStr(d, k, max) { return !(k in d) || (d[k] is string && d[k].size() <= max); }
+    function optTs(d, k)       { return !(k in d) || d[k] == null || d[k] is timestamp; }
+    function priorityOk(d)     { return d.priority in ['low', 'medium', 'high', 'urgent']; }
+    function businessExists(id) { return exists(/databases/$(database)/documents/businesses/$(id)); }
+
+    // ── Contact form enquiries (public site) ─────────────────────────────
+    match /contacts/{id} {
+      allow create: if request.resource.data.status == 'new'
+        && reqStr(request.resource.data, 'name', 200)
+        && reqStr(request.resource.data, 'email', 254)
+        && reqStr(request.resource.data, 'service', 100)
+        && reqStr(request.resource.data, 'message', 2000);
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ── Businesses ───────────────────────────────────────────────────────
+    function validBusiness(d) {
+      return reqStr(d, 'name', 120) && d.nameLower is string
+        && reqStr(d, 'category', 80)
+        && d.status in ['onboarding', 'active', 'on_hold', 'completed', 'archived']
+        && optStr(d, 'description', 1000)
+        && optStr(d, 'contactName', 120)
+        && optStr(d, 'contactEmail', 254)
+        && optStr(d, 'contactPhone', 40)
+        && optStr(d, 'address', 240)
+        && optStr(d, 'website', 200)
+        && optStr(d, 'notes', 4000)
+        && d.services is list && d.services.size() <= 30
+        && optTs(d, 'onboardedAt');
+    }
+
+    match /businesses/{id} {
+      allow read: if isAdmin();
+      allow create, update: if isAdmin() && validBusiness(request.resource.data);
+      allow delete: if false; // archive instead, so project and task history is kept
+    }
+
+    // ── Projects ─────────────────────────────────────────────────────────
+    function validProject(d) {
+      return reqStr(d, 'name', 140) && d.nameLower is string
+        && d.status in ['planning', 'active', 'on_hold', 'completed', 'cancelled']
+        && priorityOk(d)
+        && d.businessId is string && reqStr(d, 'businessName', 120)
+        && d.archived is bool
+        && d.taskTotal is int && d.taskDone is int
+        && d.taskTotal >= 0 && d.taskDone >= 0 && d.taskDone <= d.taskTotal
+        && optStr(d, 'code', 40)
+        && optStr(d, 'description', 2000)
+        && optStr(d, 'category', 120)
+        && optStr(d, 'lead', 120)
+        && optStr(d, 'notes', 4000)
+        && optTs(d, 'startDate') && optTs(d, 'dueDate') && optTs(d, 'completedAt');
+    }
+
+    match /projects/{id} {
+      allow read: if isAdmin();
+      allow create: if isAdmin()
+        && validProject(request.resource.data)
+        && businessExists(request.resource.data.businessId)
+        && request.resource.data.taskTotal == 0 && request.resource.data.taskDone == 0
+        && request.resource.data.archived == false;
+      // A project never moves to another business
+      allow update: if isAdmin()
+        && validProject(request.resource.data)
+        && request.resource.data.businessId == resource.data.businessId;
+      allow delete: if false; // archive instead
+    }
+
+    // ── Tasks ────────────────────────────────────────────────────────────
+    function validTask(d) {
+      return reqStr(d, 'title', 160) && d.titleLower is string
+        && d.status in ['todo', 'in_progress', 'blocked', 'completed', 'cancelled']
+        && priorityOk(d)
+        && d.businessId is string && reqStr(d, 'businessName', 120)
+        && (d.projectId == null || d.projectId is string)
+        && d.projectName is string
+        && optStr(d, 'description', 2000)
+        && optStr(d, 'assignee', 120)
+        && optStr(d, 'notes', 4000)
+        && optTs(d, 'startDate') && optTs(d, 'dueDate') && optTs(d, 'completedAt');
+    }
+
+    // A task's project (if any) must belong to the task's business
+    function projectMatches(d) {
+      return d.projectId == null
+        || get(/databases/$(database)/documents/projects/$(d.projectId)).data.businessId == d.businessId;
+    }
+
+    match /tasks/{id} {
+      allow read: if isAdmin();
+      allow create: if isAdmin()
+        && validTask(request.resource.data)
+        && businessExists(request.resource.data.businessId)
+        && projectMatches(request.resource.data);
+      // A task stays with its business; it may move between that business's projects
+      allow update: if isAdmin()
+        && validTask(request.resource.data)
+        && request.resource.data.businessId == resource.data.businessId
+        && projectMatches(request.resource.data);
+      allow delete: if false; // cancel instead
+    }
+
+    // ── Activity log (append-only) ───────────────────────────────────────
+    match /activity/{id} {
+      allow read: if isAdmin();
+      allow create: if isAdmin()
+        && request.resource.data.kind in ['business', 'project', 'task']
+        && request.resource.data.businessId is string
+        && request.resource.data.message is string
+        && request.resource.data.message.size() <= 500;
+      allow update, delete: if false;
+    }
+
+    // Everything else is closed by default.
+  }
+}

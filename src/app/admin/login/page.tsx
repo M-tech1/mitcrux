@@ -4,9 +4,12 @@ import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { Lock, Mail, Eye, EyeOff, AlertCircle, ArrowLeft } from "lucide-react";
 import { auth } from "@/lib/firebase";
 import { useAuth } from "@/hooks/useAuth";
-import { Lock, Mail, Eye, EyeOff, AlertCircle, Zap } from "lucide-react";
+import { Spinner } from "@/components/admin/Spinner";
+import logo from "../../../../public/assets/logo.png";
 
 export default function AdminLoginPage() {
   const { user, loading } = useAuth();
@@ -38,75 +41,78 @@ export default function AdminLoginPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        <Spinner label="Checking your session" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
+    <div className="relative min-h-screen flex items-center justify-center px-5 py-12 overflow-hidden">
+      {/* Horizon glow, as on the site hero */}
+      <div className="horizon" aria-hidden="true" />
+
+      <div className="relative w-full max-w-md">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center">
-              <Zap className="w-5 h-5 text-white" strokeWidth={2.5} />
-            </div>
-            <span className="font-bold text-2xl tracking-tight">
-              <span className="text-white">MIT</span>
-              <span className="text-cyan-400">CRUX</span>
+          <Link href="/" className="flex items-center gap-2.5 rounded-lg" aria-label="Mitcrux website">
+            <Image src={logo} alt="" sizes="44px" className="w-11 h-auto" priority />
+            <span className="font-display font-extrabold text-2xl tracking-tight">
+              <span style={{ color: "var(--text-primary)" }}>MIT</span>
+              <span className="text-gradient">CRUX</span>
             </span>
           </Link>
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-8">
+        <div className="glass-panel !rounded-3xl p-7 sm:p-8">
           <div className="text-center mb-8">
-            <div className="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center mx-auto mb-4">
-              <Lock className="w-5 h-5 text-blue-400" />
+            <div className="w-12 h-12 rounded-2xl bg-brand-500/15 border border-[var(--glass-border)] flex items-center justify-center mx-auto mb-4 shadow-[inset_0_1px_0_var(--glass-highlight)]">
+              <Lock className="w-5 h-5 text-cyan-300" aria-hidden="true" />
             </div>
-            <h1 className="text-white font-bold text-2xl">Admin Access</h1>
-            <p className="text-slate-500 text-sm mt-1">Sign in to manage submissions</p>
+            <h1 className="font-h1 text-2xl tracking-tight">Admin access</h1>
+            <p className="text-sm mt-1.5" style={{ color: "var(--text-secondary)" }}>Sign in to manage enquiries</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-5" aria-busy={submitting}>
             {/* Email */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-slate-500 text-xs font-mono tracking-widest uppercase">
-                Email
-              </label>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="admin-email" className="field-label">Email</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: "var(--text-muted)" }} aria-hidden="true" />
                 <input
+                  id="admin-email"
                   type="email"
+                  autoComplete="username"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@mitcrux.com"
                   required
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-600 text-sm focus:outline-none focus:border-blue-500/50 transition-colors"
+                  className="field !pl-10"
                 />
               </div>
             </div>
 
             {/* Password */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-slate-500 text-xs font-mono tracking-widest uppercase">
-                Password
-              </label>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="admin-password" className="field-label">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: "var(--text-muted)" }} aria-hidden="true" />
                 <input
+                  id="admin-password"
                   type={showPw ? "text" : "password"}
+                  autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full pl-10 pr-12 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-600 text-sm focus:outline-none focus:border-blue-500/50 transition-colors"
+                  className="field !pl-10 !pr-12"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPw((p) => !p)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-400 transition-colors"
+                  aria-label={showPw ? "Hide password" : "Show password"}
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-lg flex items-center justify-center transition-colors hover:text-[var(--text-primary)]"
+                  style={{ color: "var(--text-muted)" }}
                 >
                   {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -115,9 +121,9 @@ export default function AdminLoginPage() {
 
             {/* Error */}
             {error && (
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-red-500/10 border border-red-500/20">
-                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
-                <p className="text-red-400 text-sm">{error}</p>
+              <div role="alert" className="flex items-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-400/30">
+                <AlertCircle className="w-4 h-4 text-red-300 shrink-0" aria-hidden="true" />
+                <p className="text-red-300 text-sm">{error}</p>
               </div>
             )}
 
@@ -125,23 +131,28 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-sm transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
+              className="btn-primary w-full justify-center py-3.5 text-base disabled:opacity-60 disabled:pointer-events-none"
             >
               {submitting ? (
                 <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
                   Signing in…
                 </>
               ) : (
-                "Sign In"
+                "Sign in"
               )}
             </button>
           </form>
         </div>
 
-        <p className="text-center text-slate-700 text-xs mt-6">
-          <Link href="/" className="hover:text-slate-500 transition-colors">
-            ← Back to website
+        <p className="text-center mt-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-sm rounded-lg transition-colors hover:text-[var(--text-primary)]"
+            style={{ color: "var(--text-muted)" }}
+          >
+            <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+            Back to website
           </Link>
         </p>
       </div>
