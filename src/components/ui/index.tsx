@@ -11,9 +11,117 @@ export function SectionTag({
 }) {
   return (
     <span className={cn("tag-pill", className)}>
-      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse-slow inline-block" />
+      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(103,216,255,0.8)] inline-block" aria-hidden="true" />
       {children}
     </span>
+  );
+}
+
+/* ── Section heading (eyebrow + title + optional accent line + intro) ──── */
+export function SectionHeading({
+  eyebrow,
+  title,
+  accent,
+  description,
+  align = "split",
+  as: Tag = "h2",
+  className,
+}: {
+  eyebrow?: string;
+  title: React.ReactNode;
+  accent?: React.ReactNode;
+  description?: React.ReactNode;
+  align?: "split" | "center" | "left";
+  as?: "h1" | "h2";
+  className?: string;
+}) {
+  const heading = (
+    <div className={cn(align === "center" && "mx-auto max-w-3xl text-center")}>
+      {eyebrow && <SectionTag className="mb-5">{eyebrow}</SectionTag>}
+      <Tag
+        className={cn(
+          Tag === "h1" ? "font-h1 text-h1" : "font-display font-extrabold text-h2"
+        )}
+        style={{ color: "var(--text-primary)" }}
+      >
+        {title}
+        {accent && (
+          <>
+            <br />
+            <span className="text-gradient">{accent}</span>
+          </>
+        )}
+      </Tag>
+      {description && align !== "split" && (
+        <p
+          className={cn("mt-6 text-lead font-normal max-w-2xl", align === "center" && "mx-auto")}
+          style={{ color: "var(--text-secondary)" }}
+        >
+          {description}
+        </p>
+      )}
+    </div>
+  );
+
+  if (align !== "split") return <div className={className}>{heading}</div>;
+
+  return (
+    <div className={cn("flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-12", className)}>
+      <div className="flex-1">{heading}</div>
+      {description && (
+        <p
+          className="md:max-w-sm text-base leading-relaxed"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          {description}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* ── Inner page header ───────────────────────────────────────────────────── */
+export function PageHeader({
+  eyebrow,
+  title,
+  accent,
+  description,
+  children,
+}: {
+  eyebrow: string;
+  title: React.ReactNode;
+  accent?: React.ReactNode;
+  description?: React.ReactNode;
+  children?: React.ReactNode;
+}) {
+  return (
+    <section
+      className="relative pt-36 md:pt-44 pb-16 md:pb-20 overflow-hidden"
+     
+    >
+      <div className="absolute inset-0 bg-ambient" aria-hidden="true" />
+      <div
+        className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-300/25 to-transparent"
+        aria-hidden="true"
+      />
+      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6">
+        <div className="anim-rise">
+          <SectionHeading
+            as="h1"
+            align="center"
+            eyebrow={eyebrow}
+            title={title}
+            accent={accent}
+            description={description}
+          />
+        </div>
+        {children && (
+          <div className="anim-rise" style={{ "--d": "150ms" } as React.CSSProperties}>
+            {children}
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
 
@@ -52,16 +160,6 @@ export function GlowOrb({
   );
 }
 
-/* ── Dot grid background ─────────────────────────────────────────────────── */
-export function DotGrid({ className }: { className?: string }) {
-  return (
-    <div
-      className={cn("absolute inset-0 bg-grid-dark", className)}
-      aria-hidden="true"
-    />
-  );
-}
-
 /* ── Horizontal rule with gradient ──────────────────────────────────────── */
 export function GradientDivider({ className }: { className?: string }) {
   return (
@@ -90,23 +188,24 @@ export function ServiceIcon({
   const sizes = { sm: "w-9 h-9", md: "w-12 h-12", lg: "w-16 h-16" };
   const iconSizes = { sm: "w-4 h-4", md: "w-5 h-5", lg: "w-7 h-7" };
 
+  // Glossy 3D tile: lit top-left, accent glow beneath, specular highlight on top
   return (
     <div
       className={cn(
-        "relative rounded-xl flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300",
+        "relative rounded-2xl flex items-center justify-center shrink-0 group-hover:-translate-y-0.5 transition-transform duration-300",
         sizes[size],
         className
       )}
       style={{
-        background: `linear-gradient(135deg, ${accent}22, ${accent}44)`,
-        border: `1px solid ${accent}33`,
+        background: `linear-gradient(145deg, ${accent} 0%, ${accent}cc 45%, ${accent}66 100%)`,
+        boxShadow: `inset 0 1px 0 rgba(255,255,255,0.45), inset 0 -6px 12px rgba(2,8,23,0.25), 0 8px 20px -6px ${accent}aa`,
       }}
     >
-      <Icon className={iconSizes[size]} style={{ color: accent }} strokeWidth={1.8} />
-      <div
-        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"
-        style={{ background: `${accent}22` }}
+      <span
+        className="absolute inset-x-1.5 top-1 h-1/2 rounded-t-xl bg-gradient-to-b from-white/35 to-transparent pointer-events-none"
+        aria-hidden="true"
       />
+      <Icon className={cn("relative text-[#ffffff] drop-shadow-sm", iconSizes[size])} strokeWidth={2} />
     </div>
   );
 }
@@ -124,7 +223,7 @@ export function StatBadge({
   return (
     <div className={cn("flex flex-col gap-0.5", className)}>
       <span className="stat-number text-3xl md:text-4xl leading-none">{value}</span>
-      <span className="text-slate-500 text-xs font-mono tracking-wider uppercase">{label}</span>
+      <span className="text-sm mt-1" style={{ color: "var(--text-muted)" }}>{label}</span>
     </div>
   );
 }
@@ -144,9 +243,8 @@ export function Card({
   return (
     <div
       className={cn(
-        "relative rounded-2xl transition-all duration-300",
-        "bg-surface-800 border border-white/5",
-        hover && "hover:-translate-y-1 hover:border-brand-500/30 hover:shadow-brand-md",
+        "card-surface",
+        hover && "card-interactive",
         glow && "card-glow",
         className
       )}

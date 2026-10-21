@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BookOpen, Users, Clock, Award } from "lucide-react";
 import { SERVICES } from "@/lib/constants";
-import { SectionTag, GlowOrb, DotGrid } from "@/components/ui";
+import { SectionTag, GlowOrb } from "@/components/ui";
 import { ContactSection } from "@/components/sections/ContactSection";
 
 export const metadata: Metadata = {
@@ -16,15 +16,14 @@ export default function AcademyPage() {
   return (
     <>
       {/* Header */}
-      <section className="relative pt-36 pb-20 overflow-hidden" style={{ background: "var(--bg-page)" }}>
-        <DotGrid className="opacity-30" />
+      <section className="relative pt-36 pb-20 overflow-hidden">
         <GlowOrb color="brand" size="xl" className="-top-32 left-0 opacity-[0.1]" />
 
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <SectionTag className="mb-6">Mitcrux Academy</SectionTag>
-              <h1 className="font-display font-extrabold text-5xl md:text-6xl tracking-tight leading-tight mb-6" style={{ color: "var(--text-primary)" }}>
+              <h1 className="font-h1 text-h1 mb-6" style={{ color: "var(--text-primary)" }}>
                 Skills that build<br />
                 <span className="text-gradient">the future.</span>
               </h1>
@@ -70,11 +69,11 @@ export default function AcademyPage() {
       </section>
 
       {/* Courses */}
-      <section className="py-24" style={{ background: "var(--bg-card-2)" }}>
+      <section className="py-24" style={{ background: "var(--bg-section-tint)" }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-14">
             <SectionTag className="mb-4">Courses</SectionTag>
-            <h2 className="font-display font-extrabold text-4xl md:text-5xl tracking-tight" style={{ color: "var(--text-primary)" }}>
+            <h2 className="font-display font-extrabold text-h2" style={{ color: "var(--text-primary)" }}>
               What you'll learn
             </h2>
           </div>

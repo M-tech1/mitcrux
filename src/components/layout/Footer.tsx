@@ -1,37 +1,42 @@
 import Link from "next/link";
-import { ArrowRight, Zap, Mail, Phone, MapPin} from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Mail, Phone, MapPin, Linkedin, Twitter, MessageCircle } from "lucide-react";
 import { SERVICES, NAV_LINKS } from "@/lib/constants";
+import logo from "../../../public/assets/logo.png";
 
 const SOCIALS = [
-  { label: "LinkedIn",  href: "https://linkedin.com/company/mitcrux",   icon: "in" },
-  { label: "X/Twitter", href: "https://twitter.com/mitcrux",             icon: "𝕏" },
-  // { label: "GitHub",    href: "https://github.com/mitcrux",              icon: "gh" },
-  { label: "WhatsApp",  href: "https://wa.me/2348065191675",             icon: "WA" },
+  { label: "LinkedIn",  href: "https://linkedin.com/company/mitcrux",   icon: Linkedin },
+  { label: "X/Twitter", href: "https://twitter.com/mitcrux",             icon: Twitter },
+  // { label: "GitHub",    href: "https://github.com/mitcrux",              icon: Github },
+  { label: "WhatsApp",  href: "https://wa.me/2348065191675",             icon: MessageCircle },
 ] as const;
+
+const linkCls = "text-sm transition-colors hover:text-[var(--text-accent)]";
+const headingCls = "font-display font-bold text-sm mb-5";
 
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-[var(--border-subtle)] overflow-hidden" style={{ background: "var(--bg-page)" }}>
+    <footer className="relative border-t border-[var(--border-subtle)] overflow-hidden">
       {/* Background glow */}
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-brand-600/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-0 right-1/4 w-64 h-64 bg-cyan-500/4 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
 
       {/* CTA Banner */}
-      <div className="relative border-b border-[var(--border-subtle)]">
-        <div className="max-w-7xl mx-auto px-6 py-16 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div>
-            <h2 className="font-display font-extrabold text-3xl md:text-4xl mb-2" style={{ color: "var(--text-primary)" }}>
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-6 pt-16">
+        <div className="relative glass-panel overflow-hidden px-6 py-10 md:px-12 md:py-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="absolute inset-0 bg-ambient pointer-events-none" aria-hidden="true" />
+          <div className="relative">
+            <h2 className="font-display font-extrabold text-h3 mb-2" style={{ color: "var(--text-primary)" }}>
               Ready to build something{" "}
               <span className="text-gradient">remarkable?</span>
             </h2>
-            <p className="text-lg" style={{ color: "var(--text-secondary)" }}>
-              Let's talk about your project, free 30-minute consultation.
+            <p className="text-lead" style={{ color: "var(--text-secondary)" }}>
+              Let&apos;s talk about your project, free 30-minute consultation.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-            <Link href="/contact" className="btn-primary px-7 py-3.5 group">
+          <div className="relative flex flex-col sm:flex-row gap-3 shrink-0">
+            <Link href="/contact" className="btn-primary justify-center px-7 py-3.5 group">
               Start a Project
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
@@ -39,7 +44,7 @@ export function Footer() {
               href="https://wa.me/2348065191675"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-ghost px-7 py-3.5"
+              className="btn-ghost justify-center px-7 py-3.5"
             >
               WhatsApp Us
             </a>
@@ -48,134 +53,126 @@ export function Footer() {
       </div>
 
       {/* Main footer grid */}
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-6 py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
 
           {/* Brand column */}
-          <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5 mb-5 group w-fit">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-cyan-500 flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
-              </div>
+          <div>
+            <Link href="/" className="flex items-center gap-2.5 mb-5 w-fit rounded-lg" aria-label="Mitcrux home">
+              <Image src={logo} alt="" sizes="40px" className="w-10 h-auto" />
               <span className="font-display font-extrabold text-xl tracking-tight">
-                <span className="text-white">MIT</span>
+                <span style={{ color: "var(--text-primary)" }}>MIT</span>
                 <span className="text-gradient">CRUX</span>
               </span>
             </Link>
-            <p className="text-slate-400 text-sm leading-relaxed mb-6">
-              Africa's fastest AI-powered tech partner. 
-              Delivering excellence through powerful software development, intelligent AI automation, & inspiring product design. <br/> All built to move your ideas forward.
+            <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--text-secondary)" }}>
+              Africa&apos;s fastest AI-powered tech partner.
+              Delivering excellence through powerful software development, intelligent AI automation, &amp; inspiring product design. <br/> All built to move your ideas forward.
             </p>
             {/* Socials */}
-            <div className="flex items-center gap-3">
-              {SOCIALS.map((s) => (
+            <div className="flex items-center gap-2.5">
+              {SOCIALS.map(({ label, href, icon: Icon }) => (
                 <a
-                  key={s.label}
-                  href={s.href}
+                  key={label}
+                  href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="w-9 h-9 rounded-lg glass-brand flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:border-cyan-500/40 transition-all duration-200 text-xs font-mono font-bold"
+                  aria-label={label}
+                  className="w-10 h-10 rounded-xl flex items-center justify-center border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-secondary)] hover:text-[var(--text-accent)] hover:border-[var(--border-hover)] transition-colors duration-200"
                 >
-                  {s.icon}
+                  <Icon className="w-4 h-4" aria-hidden="true" />
                 </a>
               ))}
             </div>
           </div>
 
           {/* Services */}
-          <div>
-            <h4 className="font-display font-bold text-sm mb-5 tracking-wide uppercase" style={{ color: "var(--text-primary)" }}>
+          <nav aria-label="Services">
+            <h3 className={headingCls} style={{ color: "var(--text-primary)" }}>
               Services
-            </h4>
+            </h3>
             <ul className="space-y-3">
               {SERVICES.slice(0, 5).map((s) => (
                 <li key={s.id}>
-                  <Link
-                    href={`/services/${s.slug}`}
-                    className="text-slate-400 text-sm hover:text-cyan-400 transition-colors underline-anim"
-                  >
+                  <Link href={`/services/${s.slug}`} className={linkCls} style={{ color: "var(--text-secondary)" }}>
                     {s.title}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href="/services" className="text-brand-400 text-sm hover:text-cyan-400 transition-colors flex items-center gap-1">
-                  View all services <ArrowRight className="w-3 h-3" />
+                <Link href="/services" className="text-sm font-semibold transition-colors flex items-center gap-1 hover:underline" style={{ color: "var(--text-accent)" }}>
+                  View all services <ArrowRight className="w-3 h-3" aria-hidden="true" />
                 </Link>
               </li>
             </ul>
-          </div>
+          </nav>
 
           {/* Company */}
-          <div>
-            <h4 className="font-display font-bold text-sm mb-5 tracking-wide uppercase" style={{ color: "var(--text-primary)" }}>
+          <nav aria-label="Company">
+            <h3 className={headingCls} style={{ color: "var(--text-primary)" }}>
               Company
-            </h4>
+            </h3>
             <ul className="space-y-3">
               {NAV_LINKS.map((l) => (
                 <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className="text-slate-400 text-sm hover:text-white transition-colors"
-                  >
+                  <Link href={l.href} className={linkCls} style={{ color: "var(--text-secondary)" }}>
                     {l.label}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href="/contact" className="text-slate-400 text-sm hover:text-white transition-colors">
+                <Link href="/contact" className={linkCls} style={{ color: "var(--text-secondary)" }}>
                   Book Consultation
                 </Link>
               </li>
             </ul>
-          </div>
+          </nav>
 
           {/* Contact */}
           <div>
-            <h4 className="font-display font-bold text-sm mb-5 tracking-wide uppercase" style={{ color: "var(--text-primary)" }}>
+            <h3 className={headingCls} style={{ color: "var(--text-primary)" }}>
               Contact
-            </h4>
-            <ul className="space-y-4">
+            </h3>
+            <ul className="space-y-4" style={{ color: "var(--text-secondary)" }}>
               <li className="flex items-start gap-3">
-                <Mail className="w-4 h-4 text-brand-400 mt-0.5 shrink-0" />
+                <Mail className="w-4 h-4 text-brand-400 dark:text-cyan-300 mt-0.5 shrink-0" aria-hidden="true" />
                 <div>
-                  <a href="mailto:info@mitcrux.com" className="text-slate-400 text-sm hover:text-white transition-colors block">
+                  <a href="mailto:info@mitcrux.com" className={`${linkCls} block`}>
                     info@mitcrux.com
                   </a>
-                  <a href="mailto:support@mitcrux.com" className="text-slate-500 text-xs hover:text-slate-400 transition-colors block mt-0.5">
+                  <a href="mailto:support@mitcrux.com" className="text-xs transition-colors hover:text-[var(--text-accent)] block mt-0.5" style={{ color: "var(--text-muted)" }}>
                     support@mitcrux.com
                   </a>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <Phone className="w-4 h-4 text-brand-400 mt-0.5 shrink-0" />
+                <Phone className="w-4 h-4 text-brand-400 dark:text-cyan-300 mt-0.5 shrink-0" aria-hidden="true" />
                 <div>
-                  <a href="tel:+2349026611164" className="text-slate-400 text-sm hover:text-white transition-colors block">
+                  <a href="tel:+2348065191675" className={`${linkCls} block`}>
                     +234 806 519 1675
                   </a>
-                  <a href="https://wa.me/2348065191675" className="text-slate-500 text-xs hover:text-cyan-400 transition-colors block mt-0.5">
+                  <a href="https://wa.me/2348065191675" className="text-xs transition-colors hover:text-[var(--text-accent)] block mt-0.5" style={{ color: "var(--text-muted)" }}>
                     WhatsApp: +234 806 519 1675
                   </a>
                 </div>
               </li>
 
               <li className="flex items-start gap-3">
-                <Phone className="w-4 h-4 text-brand-400 mt-0.5 shrink-0" />
+                <Phone className="w-4 h-4 text-brand-400 dark:text-cyan-300 mt-0.5 shrink-0" aria-hidden="true" />
                 <div>
-                  <a href="tel:+2349026611164" className="text-slate-400 text-sm hover:text-white transition-colors block">
-                   +44 7519 929532
+                  <a href="tel:+447519929532" className={`${linkCls} block`}>
+                    +44 7519 929532
                   </a>
-                  <p className="text-slate-500 text-xs hover:text-cyan-400 transition-colors block mt-0.5">
+                  <p className="text-xs block mt-0.5" style={{ color: "var(--text-muted)" }}>
                     UK Contact Line
                   </p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-brand-400 mt-0.5 shrink-0" />
+                <MapPin className="w-4 h-4 text-brand-400 dark:text-cyan-300 mt-0.5 shrink-0" aria-hidden="true" />
                 <div>
-                  <span className="text-slate-400 text-sm block">Abuja, Nigeria</span>
-                  <span className="text-slate-500 text-xs block mt-0.5">24/7 Work Hours</span>
+                  <span className="text-sm block">Abuja, Nigeria</span>
+                  <span className="text-xs block mt-0.5" style={{ color: "var(--text-muted)" }}>24/7 Work Hours</span>
                 </div>
               </li>
             </ul>
@@ -184,14 +181,14 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+      <div className="relative border-t border-[var(--border-subtle)]">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-center sm:text-left" style={{ color: "var(--text-muted)" }}>
             © {year} Mitcrux. All rights reserved. Built with AI · Delivered with precision.
           </p>
           <div className="flex items-center gap-5">
-            <Link href="/privacy" className="text-slate-600 text-xs hover:text-slate-400 transition-colors">Privacy Policy</Link>
-            <Link href="/terms"   className="text-slate-600 text-xs hover:text-slate-400 transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="text-sm transition-colors hover:text-[var(--text-accent)]" style={{ color: "var(--text-muted)" }}>Privacy Policy</Link>
+            <Link href="/terms"   className="text-sm transition-colors hover:text-[var(--text-accent)]" style={{ color: "var(--text-muted)" }}>Terms of Service</Link>
           </div>
         </div>
       </div>

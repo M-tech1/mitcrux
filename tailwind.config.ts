@@ -24,10 +24,19 @@ const config: Config = {
           900: "#071a38",
         },
         cyan: {
+          300: "#67d8ff",  // futuristic highlight cyan
           400: "#22d3ee",
           500: "#00b4d8",  // accent cyan
           600: "#0891b2",
         },
+        // Deep navy surfaces for the dark, premium visual language
+        navy: {
+          700: "#1c3462",
+          800: "#162a50",
+          900: "#101f40",
+          950: "#081329",
+        },
+        ice: "#dcebff",
         surface: {
           50:  "#f8fafc",
           100: "#f1f5f9",
@@ -43,7 +52,14 @@ const config: Config = {
         mono:    ["var(--font-mono)",    "monospace"],
       },
       fontSize: {
-        "2xs": ["0.65rem", { lineHeight: "1rem" }],
+        "2xs":     ["0.75rem", { lineHeight: "1.1rem" }],
+        // Fluid type scale
+        // Capped so the longest hero line ("Build with AI.") fits the ~600px hero column on one line
+        "display": ["clamp(2.5rem, 4.9vw, 4.4rem)",  { lineHeight: "1.1",  letterSpacing: "-0.02em" }],
+        "h1":      ["clamp(2.4rem, 5vw, 4.25rem)",   { lineHeight: "1.12", letterSpacing: "-0.02em" }],
+        "h2":      ["clamp(2rem, 4vw, 3.4rem)",      { lineHeight: "1.08", letterSpacing: "-0.028em" }],
+        "h3":      ["clamp(1.5rem, 2.4vw, 2rem)",    { lineHeight: "1.2",  letterSpacing: "-0.02em" }],
+        "lead":    ["clamp(1.05rem, 1.4vw, 1.25rem)", { lineHeight: "1.65" }],
       },
       spacing: {
         "18":  "4.5rem",
@@ -58,13 +74,8 @@ const config: Config = {
       backgroundImage: {
         "gradient-radial":   "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":    "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "grid-pattern":
-          "linear-gradient(rgba(26,86,160,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(26,86,160,0.07) 1px, transparent 1px)",
         "noise":
           "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E\")",
-      },
-      backgroundSize: {
-        "grid": "40px 40px",
       },
       animation: {
         "float":        "float 6s ease-in-out infinite",
@@ -106,6 +117,7 @@ const config: Config = {
         "glow-blue": "0 0 30px rgba(26,114,215,0.5)",
         "card":      "0 1px 3px rgba(0,0,0,0.1), 0 8px 32px rgba(0,0,0,0.08)",
         "card-dark": "0 1px 3px rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.4)",
+        "panel":     "inset 0 1px 0 var(--glass-highlight), 0 12px 40px rgba(2,8,23,0.18)",
       },
       transitionTimingFunction: {
         "spring":  "cubic-bezier(0.175, 0.885, 0.32, 1.275)",

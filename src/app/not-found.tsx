@@ -1,18 +1,18 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { GlowOrb, DotGrid } from "@/components/ui";
+import { Mascot } from "@/components/ui/Mascot";
 
 export default function NotFound() {
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden text-center px-6" style={{ background: "var(--bg-page)" }}>
-      <DotGrid className="opacity-30" />
-      <GlowOrb color="brand" size="xl" className="top-0 left-1/4 opacity-[0.08]" />
+    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden text-center px-6">
+      <div className="absolute inset-0 bg-ambient" aria-hidden="true" />
 
-      <div className="relative z-10">
-        <p className="font-mono text-8xl font-extrabold text-gradient mb-4">404</p>
-        <h1 className="font-display font-extrabold text-3xl mb-4" style={{ color: "var(--text-primary)" }}>Page not found</h1>
-        <p className="text-slate-400 mb-10 max-w-sm">
-          The page you're looking for doesn't exist or has been moved.
+      <div className="relative z-10 anim-rise">
+        <Mascot pose="idle" className="w-32 md:w-40 mx-auto mb-2" />
+        <p className="font-display text-7xl md:text-8xl font-extrabold text-gradient mb-4 tracking-tight" aria-hidden="true">404</p>
+        <h1 className="font-h1 text-h3 mb-4" style={{ color: "var(--text-primary)" }}>Page not found</h1>
+        <p className="mb-10 max-w-sm mx-auto" style={{ color: "var(--text-secondary)" }}>
+          The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
         <Link href="/" className="btn-primary px-7 py-3.5 group">
           Back to Home

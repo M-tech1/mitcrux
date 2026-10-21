@@ -1,10 +1,39 @@
 import type { Metadata, Viewport } from "next";
+import { Manrope, Inter, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
+
+const fontDisplay = Manrope({
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-display",
+  display: "swap",
+});
+const fontBody = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+// Page titles (h1)
+const fontHeading = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["600"],
+  variable: "--font-heading",
+  display: "swap",
+});
+const fontMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+/* Applies the stored / system theme before first paint to avoid a flash. */
+const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem("mitcrux-theme");if(t!=="dark"&&t!=="light"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.classList.add(t)}catch(e){document.documentElement.classList.add("dark")}})();`;
 
 export const metadata: Metadata = {
   title: {
@@ -50,8 +79,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
-    { media: "(prefers-color-scheme: dark)", color: "#080f1e" },
+    { media: "(prefers-color-scheme: light)", color: "#f3f6fb" },
+    { media: "(prefers-color-scheme: dark)", color: "#081329" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -63,7 +92,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${fontDisplay.variable} ${fontBody.variable} ${fontHeading.variable} ${fontMono.variable}`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="antialiased">
         <ThemeProvider>
           <Navbar />

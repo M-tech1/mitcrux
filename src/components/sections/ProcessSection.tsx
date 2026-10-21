@@ -1,8 +1,11 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { SectionTag, GlowOrb } from "@/components/ui";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { SectionHeading, GlowOrb } from "@/components/ui";
+import { Mascot } from "@/components/ui/Mascot";
+import { prefersReducedMotion } from "@/hooks/useGSAP";
 
 const STEPS = [
   {
@@ -43,24 +46,27 @@ export function ProcessSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    if (prefersReducedMotion()) return;
     let ctx: { revert: () => void } | null = null;
+    let cancelled = false;
 
     (async () => {
       const { gsap } = await import("gsap");
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
       gsap.registerPlugin(ScrollTrigger);
 
-      if (!sectionRef.current) return;
+      if (cancelled || !sectionRef.current) return;
       ctx = gsap.context(() => {
         // Stagger the step cards in
         gsap.fromTo(
           sectionRef.current!.querySelectorAll("[data-step]"),
-          { y: 48, opacity: 0 },
+          { y: 48, opacity: 0, transition: "none" },
           {
             y: 0, opacity: 1,
             duration: 0.9,
             stagger: 0.18,
             ease: "power3.out",
+            clearProps: "transform,transition",
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top 80%",
@@ -69,13 +75,15 @@ export function ProcessSection() {
           }
         );
 
-        // Animate the connector line fill
+        // Draw each connector segment in sequence, following the step reveal
         gsap.fromTo(
-          sectionRef.current!.querySelector("[data-connector]"),
+          sectionRef.current!.querySelectorAll("[data-connector]"),
           { scaleX: 0, transformOrigin: "left center" },
           {
             scaleX: 1,
-            duration: 1.6,
+            duration: 0.6,
+            stagger: 0.18,
+            delay: 0.3,
             ease: "power2.inOut",
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -87,196 +95,111 @@ export function ProcessSection() {
       }, sectionRef);
     })();
 
-    return () => ctx?.revert();
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative py-28 overflow-hidden" style={{ background: "var(--bg-card-2)" }}
+      className="relative section-y overflow-hidden"
     >
-      {/* Subtle top / bottom rules */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-500/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-500/20 to-transparent" />
+      <GlowOrb color="brand" size="xl" className="left-[-20%] top-0 opacity-[0.10]" />
 
-      <GlowOrb color="brand" size="xl" className="left-[-20%] top-0 opacity-[0.06]" />
-      <GlowOrb color="cyan"  size="lg" className="right-[-10%] bottom-0 opacity-[0.05]" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6">
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
-          <div>
-            <SectionTag className="mb-4">How It Works</SectionTag>
-            <h2 className="font-display font-extrabold text-4xl md:text-5xl xl:text-6xl leading-tight tracking-tight" style={{ color: "var(--text-primary)" }}>
-              From idea to live product<br />
-              <span className="text-gradient">no guesswork.</span>
-            </h2>
-          </div>
-          <p className="text-base leading-relaxed max-w-xs font-light md:text-right" style={{ color: "var(--text-secondary)" }}>
-            A repeatable process refined across 120+ projects. Predictable, transparent, fast.
-          </p>
-        </div>
+        <SectionHeading
+          className="mb-16 md:mb-20"
+          eyebrow="How It Works"
+          title="From idea to live product"
+          accent="no guesswork."
+          description="A repeatable process refined across 120+ projects. Predictable, transparent, fast."
+        />
 
-        {/* Steps — desktop horizontal timeline */}
-        <div className="hidden lg:block relative mb-6">
-          {/* Connector line */}
-          <div className="absolute top-8 left-[calc(12.5%)] right-[calc(12.5%)] h-px bg-white/5">
-            <div
-              data-connector
-              className="absolute inset-0 h-px"
-              style={{
-                background: "linear-gradient(90deg, #1a72d7, #0ea5d4, #00b4d8, #22d3ee)",
-              }}
-            />
-          </div>
-
-          <div className="grid grid-cols-4 gap-6">
-            {STEPS.map((step, i) => (
-              <StepCard key={i} step={step} index={i} />
-            ))}
-          </div>
-        </div>
-
-        {/* Steps — mobile vertical */}
-        <div className="lg:hidden flex flex-col gap-0">
+        {/* Steps: 1 column on mobile, 2×2 on tablet, 4-up timeline on desktop */}
+        <ol className="grid gap-x-6 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
           {STEPS.map((step, i) => (
-            <div key={i} className="flex gap-5">
-              {/* Left: number + line */}
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-mono font-bold text-sm text-white border"
-                  style={{
-                    background: `${step.accent}20`,
-                    borderColor: `${step.accent}50`,
-                    color: step.accent,
-                  }}
-                >
-                  {step.number}
-                </div>
-                {i < STEPS.length - 1 && (
-                  <div
-                    className="w-px flex-1 my-2"
-                    style={{ background: `linear-gradient(to bottom, ${step.accent}40, transparent)` }}
-                  />
-                )}
-              </div>
-
-              {/* Right: content */}
-              <div
-                data-step
-                className="pb-10 flex-1"
-              >
-                <h3 className="font-display font-bold text-lg mb-2 leading-snug" style={{ color: "var(--text-primary)" }}>
-                  {step.title}
-                </h3>
-                <p className="text-sm leading-relaxed mb-3 font-light" style={{ color: "var(--text-secondary)" }}>
-                  {step.description}
-                </p>
-                <span
-                  className="text-2xs font-mono tracking-wide"
-                  style={{ color: `${step.accent}99` }}
-                >
-                  {step.detail}
-                </span>
-              </div>
-            </div>
+            <StepCard key={step.number} step={step} isLast={i === STEPS.length - 1} />
           ))}
-        </div>
+        </ol>
 
         {/* Bottom CTA strip */}
-        <div className="mt-16 p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 border border-brand-500/15" style={{ background: "var(--bg-card)" }}>
-          <div>
-            <p className="font-display font-bold text-lg mb-1" style={{ color: "var(--text-primary)" }}>
+        <div className="relative mt-16 p-8 md:p-10 glass-panel overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-500/15 via-transparent to-cyan-300/10 pointer-events-none" aria-hidden="true" />
+          <Mascot pose="wave" className="hidden sm:block relative w-24 md:w-28 shrink-0 -my-4" />
+          <div className="relative sm:mr-auto">
+            <p className="font-display font-bold text-xl md:text-2xl mb-1 tracking-tight" style={{ color: "var(--text-primary)" }}>
               Ready to start your project?
             </p>
-            <p className="text-sm font-light" style={{ color: "var(--text-secondary)" }}>
+            <p className="text-base" style={{ color: "var(--text-secondary)" }}>
               Book a free discovery call, slots fill up fast.
             </p>
           </div>
-          <a
-            href="/contact"
-            className="btn-primary px-7 py-3.5 shrink-0 group"
-          >
+          <Link href="/contact" className="relative btn-primary px-7 py-3.5 shrink-0 group">
             Book Discovery Call
-            <svg
-              className="w-4 h-4 transition-transform group-hover:translate-x-0.5"
-              fill="none" stroke="currentColor" strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+          </Link>
         </div>
       </div>
     </section>
   );
 }
 
-/* ── Desktop step card ─────────────────────────────────────────────────────── */
+/* ── Step: timeline marker above an equal-height card ────────────────────── */
 function StepCard({
   step,
-  index,
+  isLast,
 }: {
   step: (typeof STEPS)[number];
-  index: number;
+  isLast: boolean;
 }) {
   return (
-    <div
-      data-step
-      className={cn(
-        "group relative flex flex-col gap-5 p-6 rounded-2xl border",
-        "transition-all duration-300",
-        "transition-all duration-400",
-        // Stagger vertical offset for editorial staircase feel
-        index % 2 === 1 ? "mt-12" : ""
-      )}
-      style={{ transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}
-    >
-      {/* Number bubble */}
-      <div className="flex items-center gap-3">
-        <div
-          className="w-10 h-10 rounded-full flex items-center justify-center font-mono font-bold text-sm border shrink-0"
+    <li data-step className="relative flex flex-col">
+      {/* Timeline marker */}
+      <div className="relative flex items-center gap-3 mb-5 h-10">
+        <span
+          className="relative z-10 w-10 h-10 rounded-full flex items-center justify-center font-mono font-bold text-sm border shrink-0 bg-[var(--bg-page)]"
           style={{
-            background: `${step.accent}18`,
-            borderColor: `${step.accent}40`,
-            color: step.accent,
+            borderColor: `${step.accent}80`,
+            color: "var(--text-accent)",
+            boxShadow: `0 0 0 4px ${step.accent}14, 0 0 18px ${step.accent}33`,
           }}
         >
           {step.number}
-        </div>
-        {/* Connector dot */}
-        <div
-          className="w-2 h-2 rounded-full"
-          style={{ background: step.accent, boxShadow: `0 0 6px ${step.accent}` }}
-        />
+        </span>
+        {/* Desktop: segment running to the next step's marker (spans this column's remainder + the gap) */}
+        {!isLast && (
+          <span
+            className="hidden lg:block absolute left-[3.25rem] -right-6 top-1/2 h-px bg-[var(--border-card)]"
+            aria-hidden="true"
+          >
+            <span
+              data-connector
+              className="absolute inset-0"
+              style={{ background: `linear-gradient(90deg, ${step.accent}, ${step.accent}33)` }}
+            />
+          </span>
+        )}
       </div>
 
-      {/* Content */}
-      <div className="flex flex-col gap-3 flex-1">
-        <h3 className="font-display font-bold text-lg leading-snug group-hover:text-gradient transition-all duration-300">
+      {/* Card */}
+      <div className="glass-panel flex flex-col flex-1 p-6">
+        <h3 className="font-display font-bold text-lg leading-snug mb-3" style={{ color: "var(--text-primary)" }}>
           {step.title}
         </h3>
-        <p className="text-sm leading-relaxed font-light flex-1" style={{ color: "var(--text-secondary)" }}>
+        <p className="text-sm leading-relaxed flex-1" style={{ color: "var(--text-secondary)" }}>
           {step.description}
         </p>
-      </div>
-
-      {/* Footer detail */}
-      <div className="pt-4 border-t border-white/5">
-        <span
-          className="text-2xs font-mono tracking-wide"
-          style={{ color: `${step.accent}80` }}
+        <p
+          className="mt-5 pt-4 border-t border-[var(--border-card)] text-xs font-medium"
+          style={{ color: "var(--text-accent)" }}
         >
           {step.detail}
-        </span>
+        </p>
       </div>
-
-      {/* Hover glow */}
-      <div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ background: `radial-gradient(ellipse at 50% 0%, ${step.accent}08, transparent 70%)` }}
-      />
-    </div>
+    </li>
   );
 }

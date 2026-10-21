@@ -5,6 +5,14 @@ node_modules
 .pnp.js
 .yarn/install-state.gz
 
+
+# firebase
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+-adminsdk-.json
+service-account*.json
+
 # testing
 /coverage
 
