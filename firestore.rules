@@ -17,7 +17,7 @@ service cloud.firestore {
 
     function isAdmin() {
       return request.auth != null
-        && request.auth.token.email == "REPLACE_WITH_ADMIN_EMAIL";
+        && request.auth.token.email == "mitcrux@gmail.com";
     }
 
     // ── Field helpers ────────────────────────────────────────────────────
